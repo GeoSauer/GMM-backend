@@ -8,7 +8,7 @@ CREATE TABLE gmm_users (
     email TEXT UNIQUE,
     password_hash TEXT NOT NULL,
     char_name TEXT,
-    class TEXT,
+    char_class TEXT,
     caster_lvl INT
     -- TODO figure out how to host avatars
     -- avatar_url TEXT,

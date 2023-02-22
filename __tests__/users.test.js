@@ -6,8 +6,7 @@ const UserService = require('../lib/services/UserService');
 
 // Dummy user for testing
 const mockUser = {
-  firstName: 'Test',
-  lastName: 'User',
+  username: 'Test',
   email: 'test@example.com',
   password: '12345',
 };
@@ -38,22 +37,73 @@ describe('user routes', () => {
 
   it('creates a new user', async () => {
     const res = await request(app).post('/api/v1/users').send(mockUser);
-    const { firstName, lastName, email } = mockUser;
+    const { username, email } = mockUser;
 
     expect(res.body).toEqual({
       id: expect.any(String),
-      firstName,
-      lastName,
+      username,
       email,
+      charName: null,
+      charClass: null,
+      casterLvl: null,
     });
   });
 
-  it('signs in an existing user', async () => {
+  it('signs in an existing user with an email', async () => {
     await request(app).post('/api/v1/users').send(mockUser);
     const res = await request(app)
       .post('/api/v1/users/sessions')
       .send({ email: 'test@example.com', password: '12345' });
+
     expect(res.status).toEqual(200);
+  });
+
+  it('signs in an existing user with a username', async () => {
+    await request(app).post('/api/v1/users').send(mockUser);
+    const res = await request(app)
+      .post('/api/v1/users/sessions')
+      .send({ username: 'Test', password: '12345' });
+
+    expect(res.status).toEqual(200);
+  });
+
+  it('get user by id, return all information about the user', async () => {
+    const [agent] = await registerAndLogin();
+    const res = await agent.get('/api/v1/users/1');
+
+    expect(res.body).toEqual({
+      id: '1',
+      username: expect.any(String),
+      email: expect.any(String),
+      charName: null,
+      charClass: null,
+      casterLvl: null,
+    });
+  });
+
+  it('should update a user', async () => {
+    const updates = {
+      charName: 'Dandelion',
+      charClass: 'Bard',
+      casterLvl: 5,
+    };
+    const [agent] = await registerAndLogin();
+    const res = await agent.patch('/api/v1/users/1').send(updates);
+
+    expect(res.body.charName).toEqual('Dandelion');
+    expect(res.body.charClass).toEqual('Bard');
+    expect(res.body.casterLvl).toEqual(5);
+
+    const newUpdate = {
+      charName: 'Dom',
+      charClass: 'Warlock',
+      casterLvl: 8,
+    };
+    const secondUpdate = await agent.patch('/api/v1/users/1').send(newUpdate);
+
+    expect(secondUpdate.body.charName).toEqual('Dom');
+    expect(secondUpdate.body.charClass).toEqual('Warlock');
+    expect(secondUpdate.body.casterLvl).toEqual(8);
   });
 
   it('/protected should return a 401 if not authenticated', async () => {

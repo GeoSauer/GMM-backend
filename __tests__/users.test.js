@@ -5,21 +5,26 @@ const app = require('../lib/app');
 const UserService = require('../lib/services/UserService');
 
 // Dummy user for testing
-const mockUser = {
+const mockNewUser = {
+  email: 'test@example.com',
+  password: '12345',
+};
+
+const mockExistingUser = {
   username: 'Test',
   email: 'test@example.com',
   password: '12345',
 };
 
 const registerAndLogin = async (userProps = {}) => {
-  const password = userProps.password ?? mockUser.password;
+  const password = userProps.password ?? mockExistingUser.password;
 
   // Create an "agent" that gives us the ability
   // to store cookies between requests in a test
   const agent = request.agent(app);
 
   // Create a user to sign in with
-  const user = await UserService.create({ ...mockUser, ...userProps });
+  const user = await UserService.create({ ...mockExistingUser, ...userProps });
 
   // ...then sign in
   const { email } = user;
@@ -36,12 +41,12 @@ describe.skip('user routes', () => {
   });
 
   it('creates a new user', async () => {
-    const res = await request(app).post('/api/v1/users').send(mockUser);
-    const { username, email } = mockUser;
+    const res = await request(app).post('/api/v1/users').send(mockNewUser);
+    const { email } = mockNewUser;
 
     expect(res.body).toEqual({
       id: expect.any(String),
-      username,
+      username: null,
       email,
       charName: null,
       charClass: null,
@@ -50,7 +55,7 @@ describe.skip('user routes', () => {
   });
 
   it('signs in an existing user with an email', async () => {
-    await request(app).post('/api/v1/users').send(mockUser);
+    await request(app).post('/api/v1/users').send(mockExistingUser);
     const res = await request(app)
       .post('/api/v1/users/sessions')
       .send({ email: 'test@example.com', password: '12345' });
@@ -59,7 +64,7 @@ describe.skip('user routes', () => {
   });
 
   it('signs in an existing user with a username', async () => {
-    await request(app).post('/api/v1/users').send(mockUser);
+    await request(app).post('/api/v1/users').send(mockExistingUser);
     const res = await request(app)
       .post('/api/v1/users/sessions')
       .send({ username: 'Test', password: '12345' });

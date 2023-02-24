@@ -27,11 +27,17 @@ const registerAndLogin = async (userProps = {}) => {
   return [agent, user];
 };
 
-describe.skip('user routes', () => {
+describe('spell routes', () => {
   beforeEach(() => {
     return setup(pool);
   });
   afterAll(() => {
     pool.end();
+  });
+
+  it('should return a complete list of spells', async () => {
+    const [agent] = await registerAndLogin();
+    const res = await agent.get('/api/v1/spells');
+    expect(res.body.length).toEqual(319);
   });
 });

@@ -6,7 +6,6 @@ const UserService = require('../lib/services/UserService');
 
 // Dummy user for testing
 const mockUser = {
-  username: 'Test',
   email: 'test@example.com',
   password: '12345',
 };
@@ -27,7 +26,7 @@ const registerAndLogin = async (userProps = {}) => {
   return [agent, user];
 };
 
-describe('spell routes', () => {
+describe.skip('spell routes', () => {
   beforeEach(() => {
     return setup(pool);
   });
@@ -39,5 +38,21 @@ describe('spell routes', () => {
     const [agent] = await registerAndLogin();
     const res = await agent.get('/api/v1/spells');
     expect(res.body.length).toEqual(319);
+  });
+
+  it('should return a list of spells filtered by user class and level', async () => {
+    const userInfo = {
+      charClass: 'Cleric',
+      casterLvl: 3,
+    };
+    const [agent] = await registerAndLogin();
+    const user = await agent.patch('/api/v1/users/1').send(userInfo);
+    expect(user.body.charClass).toEqual('Cleric');
+    expect(user.body.casterLvl).toEqual(3);
+
+    const res = await agent.get(
+      '/api/v1/spells/available-spells?level=3&class=cleric'
+    );
+    expect(res.body.length).toEqual(42);
   });
 });

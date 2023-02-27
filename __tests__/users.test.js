@@ -32,7 +32,7 @@ const registerAndLogin = async (userProps = {}) => {
   return [agent, user];
 };
 
-describe.skip('user routes', () => {
+describe('user routes', () => {
   beforeEach(() => {
     return setup(pool);
   });
@@ -50,7 +50,7 @@ describe.skip('user routes', () => {
       email,
       charName: null,
       charClass: null,
-      casterLvl: null,
+      charLvl: null,
     });
   });
 
@@ -82,7 +82,7 @@ describe.skip('user routes', () => {
       email: expect.any(String),
       charName: null,
       charClass: null,
-      casterLvl: null,
+      charLvl: null,
     });
   });
 
@@ -90,25 +90,25 @@ describe.skip('user routes', () => {
     const updates = {
       charName: 'Dandelion',
       charClass: 'Bard',
-      casterLvl: 5,
+      charLvl: 5,
     };
     const [agent] = await registerAndLogin();
     const res = await agent.patch('/api/v1/users/1').send(updates);
 
     expect(res.body.charName).toEqual('Dandelion');
     expect(res.body.charClass).toEqual('Bard');
-    expect(res.body.casterLvl).toEqual(5);
+    expect(res.body.charLvl).toEqual(5);
 
     const newUpdate = {
       charName: 'Dom',
       charClass: 'Warlock',
-      casterLvl: 8,
+      charLvl: 8,
     };
     const secondUpdate = await agent.patch('/api/v1/users/1').send(newUpdate);
 
     expect(secondUpdate.body.charName).toEqual('Dom');
     expect(secondUpdate.body.charClass).toEqual('Warlock');
-    expect(secondUpdate.body.casterLvl).toEqual(8);
+    expect(secondUpdate.body.charLvl).toEqual(8);
   });
 
   it('/protected should return a 401 if not authenticated', async () => {

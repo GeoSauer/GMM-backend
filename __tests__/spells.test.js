@@ -43,12 +43,12 @@ describe.skip('spell routes', () => {
   it('should return a list of spells filtered by user class and level', async () => {
     const userInfo = {
       charClass: 'Cleric',
-      casterLvl: 3,
+      charLvl: 3,
     };
     const [agent] = await registerAndLogin();
     const user = await agent.patch('/api/v1/users/1').send(userInfo);
     expect(user.body.charClass).toEqual('Cleric');
-    expect(user.body.casterLvl).toEqual(3);
+    expect(user.body.charLvl).toEqual(3);
 
     const res = await agent.get(
       '/api/v1/spells/available-spells?level=3&class=cleric'

@@ -32,7 +32,7 @@ const registerAndLogin = async (userProps = {}) => {
   return [agent, user];
 };
 
-describe.skip('user routes', () => {
+describe('user routes', () => {
   beforeEach(() => {
     return setup(pool);
   });
@@ -51,6 +51,8 @@ describe.skip('user routes', () => {
       charName: null,
       charClass: null,
       charLvl: null,
+      charMod: null,
+      casterLvl: null,
     });
   });
 
@@ -83,6 +85,8 @@ describe.skip('user routes', () => {
       charName: null,
       charClass: null,
       charLvl: null,
+      charMod: null,
+      casterLvl: null,
     });
   });
 

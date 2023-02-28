@@ -13,6 +13,7 @@ CREATE TABLE users (
     char_name TEXT,
     char_class TEXT,
     char_lvl INT DEFAULT 1,
+    char_mod INT DEFAULT 0,
     caster_lvl INT DEFAULT 0
     -- //TODO figure out how to host avatars
     -- avatar_url TEXT,

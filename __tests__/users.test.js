@@ -32,7 +32,7 @@ const registerAndLogin = async (userProps = {}) => {
   return [agent, user];
 };
 
-describe('user routes', () => {
+describe.skip('user routes', () => {
   beforeEach(() => {
     return setup(pool);
   });

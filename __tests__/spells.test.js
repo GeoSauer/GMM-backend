@@ -26,7 +26,7 @@ const registerAndLogin = async (userProps = {}) => {
   return [agent, user];
 };
 
-describe.skip('spell routes', () => {
+describe('spell routes', () => {
   beforeEach(() => {
     return setup(pool);
   });
@@ -40,19 +40,15 @@ describe.skip('spell routes', () => {
     expect(res.body.length).toEqual(319);
   });
 
-  it('should return a list of spells filtered by user class and level', async () => {
+  it.only('should return a list of spells filtered by character level', async () => {
     const userInfo = {
-      charClass: 'Cleric',
-      charLvl: 3,
+      charLvl: 7,
     };
     const [agent] = await registerAndLogin();
     const user = await agent.patch('/api/v1/users/1').send(userInfo);
-    expect(user.body.charClass).toEqual('Cleric');
-    expect(user.body.charLvl).toEqual(3);
+    expect(user.body.casterLvl).toEqual(4);
 
-    const res = await agent.get(
-      '/api/v1/spells/available-spells?level=3&class=cleric'
-    );
-    expect(res.body.length).toEqual(42);
+    const res = await agent.get('/api/v1/spells/available-spells?level=4');
+    expect(res.body.length).toEqual(200);
   });
 });

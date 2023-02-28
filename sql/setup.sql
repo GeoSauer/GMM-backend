@@ -19,12 +19,14 @@ CREATE TABLE users (
     -- avatar_url TEXT,
 );
 
--- CREATE TABLE spells (
---         id BIGINT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
---         index TEXT,
---         -- name TEXT,
---         -- url TEXT
--- );
+CREATE TABLE spells (
+        id BIGINT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
+        index TEXT,
+        name TEXT,
+        level INT,
+        school TEXT,
+        classes TEXT
+);
 
 -- CREATE TABLE prepared (
 --         id BIGINT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,

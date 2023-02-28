@@ -65,4 +65,10 @@ describe('spell routes', () => {
     );
     expect(res.body.length).toEqual(18);
   });
+
+  it.only('should return details on a specific spell', async () => {
+    const [agent] = await registerAndLogin();
+    const res = await agent.get('/api/v1/spells/blur');
+    expect(res.body.index).toEqual('blur');
+  });
 });

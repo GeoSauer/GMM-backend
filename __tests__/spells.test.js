@@ -40,7 +40,7 @@ describe('spell routes', () => {
     expect(res.body.length).toEqual(319);
   });
 
-  it.only('should return a list of spells filtered by character level', async () => {
+  it('should return a list of spells filtered by character level', async () => {
     const userInfo = {
       charLvl: 7,
     };
@@ -50,5 +50,19 @@ describe('spell routes', () => {
 
     const res = await agent.get('/api/v1/spells/available-spells?level=4');
     expect(res.body.length).toEqual(200);
+  });
+
+  it('should return a list of spells filtered by character level and school', async () => {
+    const userInfo = {
+      charLvl: 7,
+    };
+    const [agent] = await registerAndLogin();
+    const user = await agent.patch('/api/v1/users/1').send(userInfo);
+    expect(user.body.casterLvl).toEqual(4);
+
+    const res = await agent.get(
+      '/api/v1/spells/school?school=illusion&level=4'
+    );
+    expect(res.body.length).toEqual(18);
   });
 });

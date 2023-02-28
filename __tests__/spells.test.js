@@ -34,13 +34,13 @@ describe('spell routes', () => {
     pool.end();
   });
 
-  it('should return a complete list of spells', async () => {
+  it('should fetch a complete list of spells', async () => {
     const [agent] = await registerAndLogin();
     const res = await agent.get('/api/v1/spells');
     expect(res.body.length).toEqual(319);
   });
 
-  it('should return a list of spells filtered by character level', async () => {
+  it('should fetch a list of spells filtered by character level', async () => {
     const userInfo = {
       charLvl: 7,
     };
@@ -52,7 +52,7 @@ describe('spell routes', () => {
     expect(res.body.length).toEqual(200);
   });
 
-  it('should return a list of spells filtered by character level and school', async () => {
+  it('should fetch a list of spells filtered by character level and school', async () => {
     const userInfo = {
       charLvl: 7,
     };
@@ -66,7 +66,7 @@ describe('spell routes', () => {
     expect(res.body.length).toEqual(18);
   });
 
-  it.only('should return details on a specific spell', async () => {
+  it('should fetch details on a specific spell', async () => {
     const [agent] = await registerAndLogin();
     const res = await agent.get('/api/v1/spells/blur');
     expect(res.body.index).toEqual('blur');

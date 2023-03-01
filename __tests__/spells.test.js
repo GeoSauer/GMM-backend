@@ -40,6 +40,25 @@ describe('spell routes', () => {
     expect(res.body.length).toEqual(319);
   });
 
+  it('should fetch details on a specific spell', async () => {
+    const [agent] = await registerAndLogin();
+    const res = await agent.get('/api/v1/spells/blur');
+    expect(res.body.index).toEqual('blur');
+  });
+
+  it.only('should get available spells filtered by user charClass', async () => {
+    const userInfo = {
+      charClass: 'Wizard',
+      charLvl: 7,
+    };
+    const [agent] = await registerAndLogin();
+    const user = await agent.patch('/api/v1/users/1').send(userInfo);
+    expect(user.body.charClass).toEqual('Wizard');
+
+    const res = await agent.get('/api/v1/spells/Wizard');
+    console.log(res.body);
+    expect(res.body.length).toEqual(4);
+  });
   //? these tests are no longer needed
   // it('should fetch a list of spells filtered by character level', async () => {
   //   const userInfo = {
@@ -66,10 +85,4 @@ describe('spell routes', () => {
   //   );
   //   expect(res.body.length).toEqual(18);
   // });
-
-  it('should fetch details on a specific spell', async () => {
-    const [agent] = await registerAndLogin();
-    const res = await agent.get('/api/v1/spells/blur');
-    expect(res.body.index).toEqual('blur');
-  });
 });

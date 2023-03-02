@@ -5,22 +5,26 @@ const app = require('../lib/app');
 const UserService = require('../lib/services/UserService');
 
 // Dummy user for testing
-const mockUser = {
-  firstName: 'Test',
-  lastName: 'User',
+const mockNewUser = {
+  email: 'test@example.com',
+  password: '12345',
+};
+
+const mockExistingUser = {
+  username: 'Test',
   email: 'test@example.com',
   password: '12345',
 };
 
 const registerAndLogin = async (userProps = {}) => {
-  const password = userProps.password ?? mockUser.password;
+  const password = userProps.password ?? mockExistingUser.password;
 
   // Create an "agent" that gives us the ability
   // to store cookies between requests in a test
   const agent = request.agent(app);
 
   // Create a user to sign in with
-  const user = await UserService.create({ ...mockUser, ...userProps });
+  const user = await UserService.create({ ...mockExistingUser, ...userProps });
 
   // ...then sign in
   const { email } = user;
@@ -37,23 +41,78 @@ describe('user routes', () => {
   });
 
   it('creates a new user', async () => {
-    const res = await request(app).post('/api/v1/users').send(mockUser);
-    const { firstName, lastName, email } = mockUser;
+    const res = await request(app).post('/api/v1/users').send(mockNewUser);
+    const { email } = mockNewUser;
 
     expect(res.body).toEqual({
       id: expect.any(String),
-      firstName,
-      lastName,
+      username: null,
       email,
+      charName: null,
+      charClass: null,
+      charLvl: null,
+      charMod: null,
+      casterLvl: null,
     });
   });
 
-  it('signs in an existing user', async () => {
-    await request(app).post('/api/v1/users').send(mockUser);
+  it('signs in an existing user with an email', async () => {
+    await request(app).post('/api/v1/users').send(mockExistingUser);
     const res = await request(app)
       .post('/api/v1/users/sessions')
       .send({ email: 'test@example.com', password: '12345' });
+
     expect(res.status).toEqual(200);
+  });
+
+  it('signs in an existing user with a username', async () => {
+    await request(app).post('/api/v1/users').send(mockExistingUser);
+    const res = await request(app)
+      .post('/api/v1/users/sessions')
+      .send({ username: 'Test', password: '12345' });
+
+    expect(res.status).toEqual(200);
+  });
+
+  it('get user by id, return all information about the user', async () => {
+    const [agent] = await registerAndLogin();
+    const res = await agent.get('/api/v1/users/1');
+
+    expect(res.body).toEqual({
+      id: '1',
+      username: expect.any(String),
+      email: expect.any(String),
+      charName: null,
+      charClass: null,
+      charLvl: null,
+      charMod: null,
+      casterLvl: null,
+    });
+  });
+
+  it('should update a user', async () => {
+    const updates = {
+      charName: 'Dandelion',
+      charClass: 'Bard',
+      charLvl: 5,
+    };
+    const [agent] = await registerAndLogin();
+    const res = await agent.patch('/api/v1/users/1').send(updates);
+
+    expect(res.body.charName).toEqual('Dandelion');
+    expect(res.body.charClass).toEqual('Bard');
+    expect(res.body.charLvl).toEqual(5);
+
+    const newUpdate = {
+      charName: 'Dom',
+      charClass: 'Warlock',
+      charLvl: 8,
+    };
+    const secondUpdate = await agent.patch('/api/v1/users/1').send(newUpdate);
+
+    expect(secondUpdate.body.charName).toEqual('Dom');
+    expect(secondUpdate.body.charClass).toEqual('Warlock');
+    expect(secondUpdate.body.charLvl).toEqual(8);
   });
 
   it('/protected should return a 401 if not authenticated', async () => {

@@ -35,18 +35,16 @@ describe('spell routes', () => {
   });
 
   it('should fetch a complete list of spells', async () => {
-    const [agent] = await registerAndLogin();
-    const res = await agent.get('/api/v1/spells/all');
+    const res = await request(app).get('/api/v1/spells/all');
     expect(res.body.length).toEqual(319);
   });
 
   it('should fetch details on a specific spell', async () => {
-    const [agent] = await registerAndLogin();
-    const res = await agent.get('/api/v1/spells/blur');
+    const res = await request(app).get('/api/v1/spells/blur');
     expect(res.body.name).toEqual('Blur');
   });
 
-  it('should get available spells by user charClass and casterLvl', async () => {
+  it('should return available spells for a user by charClass and casterLvl', async () => {
     const userInfo = {
       charClass: 'Wizard',
       charLvl: 7,
@@ -58,6 +56,18 @@ describe('spell routes', () => {
 
     const res = await agent.get('/api/v1/spells/available/Wizard/4');
     expect(res.body.length).toEqual(3);
+  });
+  it('should return known spells for a user', async () => {
+    const [agent] = await registerAndLogin();
+
+    const res = await agent.get('/api/v1/spells/known/1');
+    expect(res.body.length).toEqual(4);
+  });
+  it('should return prepared spells for a user', async () => {
+    const [agent] = await registerAndLogin();
+
+    const res = await agent.get('/api/v1/spells/prepared/1');
+    expect(res.body.length).toEqual(2);
   });
 });
 

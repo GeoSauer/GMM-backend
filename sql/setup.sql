@@ -9,7 +9,8 @@ CREATE TABLE users (
     username TEXT,
     -- email TEXT UNIQUE,
     email TEXT,
-    password_hash TEXT NOT NULL,
+    -- password_hash TEXT NOT NULL,
+    password_hash TEXT,
     char_name TEXT,
     char_class TEXT,
     char_lvl INT,
@@ -33,28 +34,36 @@ CREATE TABLE users_spells (
         FOREIGN KEY (user_id) REFERENCES users(id),
         spell_id BIGINT,
         FOREIGN KEY (spell_id) REFERENCES spells(id),
-        known BOOLEAN,
-        prepared BOOLEAN
+        known BOOLEAN DEFAULT false,
+        prepared BOOLEAN DEFAULT false
 );
 
 -- ! DUMMY DATA FOR TESTING --
 
--- INSERT INTO users (char_class, caster_lvl)
--- VALUES 
--- ('Wizard', 5),
--- ('Bard', 8),
--- ('Druid', 2),
--- ('Cleric', 5),
--- ('Paladin', 3);
+INSERT INTO users (char_class, caster_lvl)
+VALUES 
+('Wizard', 5),
+('Bard', 8),
+('Druid', 2),
+('Cleric', 5),
+('Paladin', 3);
 
 INSERT INTO spells (index, level, school, classes)
 VALUES 
-('alter self', 2, 'transmutation', '{"Sorcerer", "Wizard"}'),
-('animal shapes', 8, 'transmutation', '{"Druid"}'),
+('alter-self', 2, 'transmutation', '{"Sorcerer", "Wizard"}'),
+('animal-shapes', 8, 'transmutation', '{"Druid"}'),
 ('alarm', 1, 'abjuration', '{"Ranger", "Wizard"}'),
 ('arcane-eye', 4, 'divination', '{"cleric", "Wizard"}'),
-('arcane sword', 7, 'evocation', '{"Bard","Wizard"}');
+('arcane-sword', 7, 'evocation', '{"Bard","Wizard"}');
 
 
--- INSERT INTO users_spells (user_id, spell_id, known, prepared)
--- VALUES ();
+INSERT INTO users_spells (user_id, spell_id, known, prepared)
+VALUES 
+(1, 1, true, true),
+(1, 3, true, false),
+(1, 4, true, true),
+(1, 5, true, false),
+(2, 5, true, false),
+(3, 2, true, true),
+(4, 4, true, true),
+(5, null, false, false);

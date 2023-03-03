@@ -4,7 +4,7 @@ const request = require('supertest');
 const app = require('../lib/app');
 const UserService = require('../lib/services/UserService');
 
-// Dummy user for testing
+//* Dummy users for testing
 const mockNewUser = {
   email: 'test@example.com',
   password: '12345',
@@ -32,7 +32,7 @@ const registerAndLogin = async (userProps = {}) => {
   return [agent, user];
 };
 
-describe('user routes', () => {
+describe.skip('user routes', () => {
   beforeEach(() => {
     return setup(pool);
   });

@@ -22,7 +22,6 @@ CREATE TABLE users (
 CREATE TABLE spells (
         id BIGINT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
         index TEXT,
-        name TEXT,
         level INT,
         school TEXT,
         classes TEXT[] DEFAULT ARRAY[]::TEXT[]
@@ -48,13 +47,13 @@ CREATE TABLE users_spells (
 -- ('Cleric', 5),
 -- ('Paladin', 3);
 
-INSERT INTO spells (index, name, level, school, classes)
+INSERT INTO spells (index, level, school, classes)
 VALUES 
-('alter-self', 'alter self', 2, 'transmutation', '{"Sorcerer", "Wizard"}'),
-('animal-shapes', 'animal shapes', 8, 'transmutation', '{"Druid"}'),
-('alarm', 'alarm', 1, 'abjuration', '{"Ranger", "Wizard"}'),
-('arcane-eye', 'arcane-eye', 4, 'divination', '{"cleric", "Wizard"}'),
-('arcane-sword', 'arcane sword', 7, 'evocation', '{"Bard","Wizard"}');
+('alter self', 2, 'transmutation', '{"Sorcerer", "Wizard"}'),
+('animal shapes', 8, 'transmutation', '{"Druid"}'),
+('alarm', 1, 'abjuration', '{"Ranger", "Wizard"}'),
+('arcane-eye', 4, 'divination', '{"cleric", "Wizard"}'),
+('arcane sword', 7, 'evocation', '{"Bard","Wizard"}');
 
 
 -- INSERT INTO users_spells (user_id, spell_id, known, prepared)

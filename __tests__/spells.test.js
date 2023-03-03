@@ -43,7 +43,7 @@ describe('spell routes', () => {
   it('should fetch details on a specific spell', async () => {
     const [agent] = await registerAndLogin();
     const res = await agent.get('/api/v1/spells/blur');
-    expect(res.body.index).toEqual('blur');
+    expect(res.body.name).toEqual('Blur');
   });
 
   it('should get available spells by user charClass and casterLvl', async () => {
@@ -59,27 +59,29 @@ describe('spell routes', () => {
     const res = await agent.get('/api/v1/spells/available/Wizard/4');
     expect(res.body.length).toEqual(3);
   });
-  // it('should get available spells by user charClass', async () => {
-  //   const userInfo = {
-  //     charClass: 'Wizard',
-  //     charLvl: 7,
-  //   };
-  //   const [agent] = await registerAndLogin();
-  //   const user = await agent.patch('/api/v1/users/1').send(userInfo);
-  //   expect(user.body.charClass).toEqual('Wizard');
-
-  //   const res = await agent.get('/api/v1/spells/class/Wizard');
-  //   expect(res.body.length).toEqual(4);
-  // });
-  // it('should get available spells by user casterLvl', async () => {
-  //   const userInfo = {
-  //     charLvl: 7,
-  //   };
-  //   const [agent] = await registerAndLogin();
-  //   const user = await agent.patch('/api/v1/users/1').send(userInfo);
-  //   expect(user.body.casterLvl).toEqual(4);
-
-  //   const res = await agent.get('/api/v1/spells/level/4');
-  //   expect(res.body.length).toEqual(3);
-  // });
 });
+
+//? these tests are no longer needed
+// it('should get available spells by user charClass', async () => {
+//   const userInfo = {
+//     charClass: 'Wizard',
+//     charLvl: 7,
+//   };
+//   const [agent] = await registerAndLogin();
+//   const user = await agent.patch('/api/v1/users/1').send(userInfo);
+//   expect(user.body.charClass).toEqual('Wizard');
+
+//   const res = await agent.get('/api/v1/spells/class/Wizard');
+//   expect(res.body.length).toEqual(4);
+// });
+// it('should get available spells by user casterLvl', async () => {
+//   const userInfo = {
+//     charLvl: 7,
+//   };
+//   const [agent] = await registerAndLogin();
+//   const user = await agent.patch('/api/v1/users/1').send(userInfo);
+//   expect(user.body.casterLvl).toEqual(4);
+
+//   const res = await agent.get('/api/v1/spells/level/4');
+//   expect(res.body.length).toEqual(3);
+// });

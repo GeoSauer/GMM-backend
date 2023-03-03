@@ -76,10 +76,10 @@ describe.skip('user routes', () => {
 
   it('get user by id, return all information about the user', async () => {
     const [agent] = await registerAndLogin();
-    const res = await agent.get('/api/v1/users/1');
+    const res = await agent.get('/api/v1/users/6');
 
     expect(res.body).toEqual({
-      id: '1',
+      id: '6',
       username: expect.any(String),
       email: expect.any(String),
       charName: null,
@@ -137,23 +137,22 @@ describe.skip('user routes', () => {
 
     // create a new user
     await agent.post('/api/v1/users').send({
-      email: 'admin',
+      email: 'geoffrey.sauer89@gmail.com',
       password: '1234',
-      firstName: 'admin',
-      lastName: 'admin',
     });
     // sign in the user
     await agent
       .post('/api/v1/users/sessions')
-      .send({ email: 'admin', password: '1234' });
+      .send({ email: 'geoffrey.sauer89@gmail.com', password: '1234' });
 
-    // const [agent] = await registerAndLogin({ email: 'admin' });
     const res = await agent.get('/api/v1/users/');
     expect(res.status).toEqual(200);
   });
 
   it('/users should return a 200 if user is admin', async () => {
-    const [agent] = await registerAndLogin({ email: 'admin' });
+    const [agent] = await registerAndLogin({
+      email: 'geoffrey.sauer89@gmail.com',
+    });
     const res = await agent.get('/api/v1/users/');
     expect(res.status).toEqual(200);
   });

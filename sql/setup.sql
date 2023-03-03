@@ -34,7 +34,7 @@ CREATE TABLE users_spells (
         FOREIGN KEY (user_id) REFERENCES users(id),
         spell_id BIGINT,
         FOREIGN KEY (spell_id) REFERENCES spells(id),
-        known BOOLEAN DEFAULT false,
+        known BOOLEAN DEFAULT true,
         prepared BOOLEAN DEFAULT false
 );
 

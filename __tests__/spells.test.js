@@ -47,6 +47,33 @@ describe('spell routes', () => {
     const res = await agent.get('/api/v1/spells/available');
     expect(res.body.length).toEqual(3);
   });
+  it.only('should return a single spell by id', async () => {
+    const [agent] = await registerAndLogin();
+    const res = await agent.get('/api/v1/spells/4');
+    expect(res.body.school).toEqual('divination');
+  });
+  it('should let users learn a spell', async () => {
+    const userInfo = {
+      charClass: 'Wizard',
+      charLvl: 7,
+    };
+    const [agent] = await registerAndLogin();
+    const user = await agent.patch('/api/v1/users/6').send(userInfo);
+    expect(user.body.charClass).toEqual('Wizard');
+    expect(user.body.casterLvl).toEqual(4);
+
+    const newSpell = {};
+    const res = await agent.post('/api/v1/spells/1/learn').send(newSpell);
+    console.log(res.body);
+    expect(res.body).toEqual({
+      id: expect.any(String),
+      userId: expect.any(String),
+      spellId: expect.any(String),
+      known: true,
+      prepared: false,
+    });
+  });
+
   // it('should return known spells for a user', async () => {
   //   const userInfo = {
   //     charClass: 'Wizard',

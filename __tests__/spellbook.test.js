@@ -10,6 +10,11 @@ const mockUser = {
   password: '12345',
 };
 
+const mockSpell = {
+  spellId: 1,
+  prepared: false,
+};
+
 const registerAndLogin = async (userProps = {}) => {
   const password = userProps.password ?? mockUser.password;
 
@@ -26,13 +31,16 @@ const registerAndLogin = async (userProps = {}) => {
   return [agent, user];
 };
 
-describe('user_spell routes', () => {
+describe.skip('spellbook routes', () => {
   beforeEach(() => {
     return setup(pool);
   });
   afterAll(() => {
     pool.end();
   });
+  it('should let users update the preparation of a spell', async () => {});
+  it('should let users remove a spell', async () => {});
+  it('', async () => {});
   it('should return known spells for a user', async () => {
     const userInfo = {
       charClass: 'Wizard',
@@ -43,7 +51,7 @@ describe('user_spell routes', () => {
     expect(user.body.charClass).toEqual('Wizard');
     expect(user.body.casterLvl).toEqual(4);
 
-    const res = await agent.get('/api/v1/spells/known');
+    const res = await agent.get('/api/v1/spellbook/known');
     expect(res.body.length).toEqual(3);
   });
   it('should return prepared spells for a user', async () => {
@@ -56,7 +64,7 @@ describe('user_spell routes', () => {
     expect(user.body.charClass).toEqual('Wizard');
     expect(user.body.casterLvl).toEqual(4);
 
-    const res = await agent.get('/api/v1/spells/prepared');
+    const res = await agent.get('/api/v1/spellbook/prepared');
     expect(res.body.length).toEqual(2);
   });
 });

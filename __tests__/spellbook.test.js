@@ -38,6 +38,12 @@ describe.skip('spellbook routes', () => {
   afterAll(() => {
     pool.end();
   });
+  // it('should return a single spell by id', async () => {
+  //   const [agent] = await registerAndLogin();
+  //   const res = await agent.get('/api/v1/spellbook/4');
+  //   expect(res.body.spellId).toEqual(5);
+  // });
+
   it('should let users update the preparation of a spell', async () => {});
   it('should let users remove a spell', async () => {});
   it('', async () => {});

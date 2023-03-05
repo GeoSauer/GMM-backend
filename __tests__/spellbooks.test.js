@@ -33,65 +33,6 @@ describe('spellbooks routes', () => {
   afterAll(() => {
     pool.end();
   });
-  // it('should return a single known spell by id', async () => {
-  //   const newSpell = {
-  //     id: 4,
-  //   };
-  //   const userInfo = {
-  //     charClass: 'Wizard',
-  //     charLvl: 7,
-  //   };
-  //   const [agent] = await registerAndLogin();
-  //   const user = await agent.patch('/api/v1/users/6').send(userInfo);
-  //   expect(user.body.charClass).toEqual('Wizard');
-  //   expect(user.body.casterLvl).toEqual(4);
-
-  //   const learnedSpell = await agent
-  //     .post('/api/v1/spells/4/learn')
-  //     .send(newSpell);
-  //   expect(learnedSpell.body).toMatchInlineSnapshot(`
-  //     Object {
-  //       "id": "8",
-  //       "known": true,
-  //       "prepared": false,
-  //       "spellId": "4",
-  //       "userId": "6",
-  //     }
-  //   `);
-
-  //   const res = await agent.get('/api/v1/spellbook/4');
-  //   console.log(res.body);
-  //   expect(res.body).toMatchInlineSnapshot(`
-  //     Object {
-  //       "id": "8",
-  //       "known": true,
-  //       "prepared": false,
-  //       "spellId": "4",
-  //       "userId": "6",
-  //     }
-  //   `);
-  // });
-  // it('should let users delete/unlearn a spell', async () => {
-  //   const newSpell = {
-  //     id: 4,
-  //   };
-  //   const [agent] = await registerAndLogin();
-  //   const learnedSpell = await agent
-  //     .post('/api/v1/spells/4/learn')
-  //     .send(newSpell);
-  //   expect(learnedSpell.body).toMatchInlineSnapshot(`
-  //         Object {
-  //           "id": "8",
-  //           "known": true,
-  //           "prepared": false,
-  //           "spellId": "4",
-  //           "userId": "6",
-  //         }
-  //     `);
-  // });
-  // it('should let users update the preparation of a spell', async () => {});
-
-  // it('', async () => {});
   it.skip('should return all known spells for a user', async () => {
     const spell = {
       id: 4,
@@ -134,6 +75,37 @@ describe('spellbooks routes', () => {
     const res = await agent.get('/api/v1/spellbook');
     expect(res.body.length).toEqual(2);
   });
+  it.skip('should let users delete a known spell', async () => {
+    const spell = {
+      id: 4,
+    };
+    const userInfo = {
+      charClass: 'Wizard',
+      charLvl: 7,
+    };
+    const [agent] = await registerAndLogin();
+    const user = await agent.patch('/api/v1/users/6').send(userInfo);
+    expect(user.body.charClass).toEqual('Wizard');
+    expect(user.body.casterLvl).toEqual(4);
+
+    const learnedSpell = await agent.post('/api/v1/spells/4/learn').send(spell);
+    expect(learnedSpell.body).toMatchInlineSnapshot(`
+      Object {
+        "id": "8",
+        "known": true,
+        "prepared": false,
+        "spellId": "4",
+        "userId": "6",
+      }
+    `);
+
+    await agent.delete('/api/v1/spellbook/4').expect(200);
+
+    await agent.get('/api/v1/spellbook/4').expect(404);
+  });
+  // it('should let users update the preparation of a spell', async () => {});
+
+  // it('', async () => {});
   // it('should return prepared spells for a user', async () => {
   //   const userInfo = {
   //     charClass: 'Wizard',

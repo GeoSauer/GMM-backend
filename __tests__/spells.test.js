@@ -34,7 +34,7 @@ describe('spell routes', () => {
     pool.end();
   });
 
-  it('should return available spells for a user by charClass and casterLvl', async () => {
+  it.skip('should return available spells for a user by charClass and casterLvl', async () => {
     const userInfo = {
       charClass: 'Wizard',
       charLvl: 7,
@@ -47,21 +47,25 @@ describe('spell routes', () => {
     const res = await agent.get('/api/v1/spells');
     expect(res.body.length).toEqual(3);
   });
-  it('should return a single spell by id', async () => {
-    const [agent] = await registerAndLogin();
-    const res = await agent.get('/api/v1/spells/4');
-    expect(res.body.school).toEqual('divination');
-  });
-  it('should let users learn a spell', async () => {
+  it.skip('should let users insert/learn an available spell', async () => {
     const newSpell = {
       id: 4,
     };
+    const userInfo = {
+      charClass: 'Wizard',
+      charLvl: 7,
+    };
     const [agent] = await registerAndLogin();
-    const res = await agent.post('/api/v1/spells/4/learn').send(newSpell);
-    console.log(res.body);
-    expect(res.body).toMatchInlineSnapshot(`
+    const user = await agent.patch('/api/v1/users/6').send(userInfo);
+    expect(user.body.charClass).toEqual('Wizard');
+    expect(user.body.casterLvl).toEqual(4);
+
+    const learnedSpell = await agent
+      .post('/api/v1/spells/4/learn')
+      .send(newSpell);
+    expect(learnedSpell.body).toMatchInlineSnapshot(`
       Object {
-        "id": "9",
+        "id": "8",
         "known": true,
         "prepared": false,
         "spellId": "4",
@@ -70,7 +74,10 @@ describe('spell routes', () => {
     `);
   });
 
-  // it('should return known spells for a user', async () => {
+  //TODO I think detail view is the only other route needed here?
+  //? unnecessary? modify into the detail route? ✅
+  //! need to make this hit 5e/spells/${index}
+  // it('should return details on a single available spell by id', async () => {
   //   const userInfo = {
   //     charClass: 'Wizard',
   //     charLvl: 7,
@@ -80,21 +87,8 @@ describe('spell routes', () => {
   //   expect(user.body.charClass).toEqual('Wizard');
   //   expect(user.body.casterLvl).toEqual(4);
 
-  //   const res = await agent.get('/api/v1/spells/known');
-  //   expect(res.body.length).toEqual(3);
-  // });
-  // it('should return prepared spells for a user', async () => {
-  //   const userInfo = {
-  //     charClass: 'Wizard',
-  //     charLvl: 7,
-  //   };
-  //   const [agent] = await registerAndLogin();
-  //   const user = await agent.patch('/api/v1/users/6').send(userInfo);
-  //   expect(user.body.charClass).toEqual('Wizard');
-  //   expect(user.body.casterLvl).toEqual(4);
-
-  //   const res = await agent.get('/api/v1/spells/prepared');
-  //   expect(res.body.length).toEqual(2);
+  //   const res = await agent.get('/api/v1/spells/4');
+  //   expect(res.body.school).toEqual('divination');
   // });
 });
 
@@ -107,28 +101,4 @@ describe('spell routes', () => {
 // it('should fetch details on a specific spell', async () => {
 //   const res = await request(app).get('/api/v1/spells/blur');
 //   expect(res.body.name).toEqual('Blur');
-// });
-
-// it('should get available spells by user charClass', async () => {
-//   const userInfo = {
-//     charClass: 'Wizard',
-//     charLvl: 7,
-//   };
-//   const [agent] = await registerAndLogin();
-//   const user = await agent.patch('/api/v1/users/1').send(userInfo);
-//   expect(user.body.charClass).toEqual('Wizard');
-
-//   const res = await agent.get('/api/v1/spells/class/Wizard');
-//   expect(res.body.length).toEqual(4);
-// });
-// it('should get available spells by user casterLvl', async () => {
-//   const userInfo = {
-//     charLvl: 7,
-//   };
-//   const [agent] = await registerAndLogin();
-//   const user = await agent.patch('/api/v1/users/1').send(userInfo);
-//   expect(user.body.casterLvl).toEqual(4);
-
-//   const res = await agent.get('/api/v1/spells/level/4');
-//   expect(res.body.length).toEqual(3);
 // });

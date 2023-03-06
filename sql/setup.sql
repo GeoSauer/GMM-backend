@@ -53,7 +53,7 @@ VALUES
 ('alter-self', 2, 'transmutation', '{"Sorcerer", "Wizard"}'),
 ('animal-shapes', 8, 'transmutation', '{"Druid"}'),
 ('alarm', 1, 'abjuration', '{"Ranger", "Wizard"}'),
-('arcane-eye', 4, 'divination', '{"cleric", "Wizard"}'),
+('arcane-eye', 4, 'divination', '{"Cleric", "Wizard"}'),
 ('arcane-sword', 7, 'evocation', '{"Bard","Wizard"}');
 
 

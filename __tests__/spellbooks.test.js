@@ -103,10 +103,32 @@ describe('spellbooks routes', () => {
 
     await agent.get('/api/v1/spellbook/4').expect(404);
   });
-  // it('should let users update the preparation of a spell', async () => {});
+  it.only('should let users update the preparation of a spell', async () => {
+    const spell = {
+      id: 4,
+    };
+    const userInfo = {
+      charClass: 'Wizard',
+      charLvl: 7,
+    };
+    const [agent] = await registerAndLogin();
+    const user = await agent.patch('/api/v1/users/6').send(userInfo);
+    expect(user.body.charClass).toEqual('Wizard');
+    expect(user.body.casterLvl).toEqual(4);
 
-  // it('', async () => {});
-  // it('should return prepared spells for a user', async () => {
+    const learnedSpell = await agent.post('/api/v1/spells/4/learn').send(spell);
+    expect(learnedSpell.body).toMatchInlineSnapshot(`
+      Object {
+        "id": "8",
+        "known": true,
+        "prepared": false,
+        "spellId": "4",
+        "userId": "6",
+      }
+    `);
+  });
+
+  // it('should return all prepared spells for a user', async () => {
   //   const userInfo = {
   //     charClass: 'Wizard',
   //     charLvl: 7,

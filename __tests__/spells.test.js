@@ -72,32 +72,17 @@ describe('spell routes', () => {
       }
     `);
   });
+  it.skip('should return details on a single available spell by id', async () => {
+    const userInfo = {
+      charClass: 'Wizard',
+      charLvl: 7,
+    };
+    const [agent] = await registerAndLogin();
+    const user = await agent.patch('/api/v1/users/6').send(userInfo);
+    expect(user.body.charClass).toEqual('Wizard');
+    expect(user.body.casterLvl).toEqual(4);
 
-  //TODO I think detail view is the only other route needed here?
-  //? unnecessary? modify into the detail route? ✅
-  //! need to make this hit 5e/spells/${index}
-  // it('should return details on a single available spell by id', async () => {
-  //   const userInfo = {
-  //     charClass: 'Wizard',
-  //     charLvl: 7,
-  //   };
-  //   const [agent] = await registerAndLogin();
-  //   const user = await agent.patch('/api/v1/users/6').send(userInfo);
-  //   expect(user.body.charClass).toEqual('Wizard');
-  //   expect(user.body.casterLvl).toEqual(4);
-
-  //   const res = await agent.get('/api/v1/spells/4');
-  //   expect(res.body.school).toEqual('divination');
-  // });
+    const res = await agent.get('/api/v1/spells/4/details');
+    expect(res.body.school.index).toEqual('divination');
+  });
 });
-
-//? these tests are no longer needed
-// it('should fetch a complete list of spells', async () => {
-//   const res = await request(app).get('/api/v1/spells/all');
-//   expect(res.body.length).toEqual(319);
-// });
-
-// it('should fetch details on a specific spell', async () => {
-//   const res = await request(app).get('/api/v1/spells/blur');
-//   expect(res.body.name).toEqual('Blur');
-// });

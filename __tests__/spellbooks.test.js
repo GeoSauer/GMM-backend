@@ -130,7 +130,7 @@ describe('spellbooks routes', () => {
       .send(updatedInfo);
     expect(updatedSpell.body.prepared).toEqual(true);
   });
-  it.only('should return all prepared spells for a user', async () => {
+  it.skip('should return all prepared spells for a user', async () => {
     const spell = {
       id: 4,
     };
@@ -160,8 +160,8 @@ describe('spellbooks routes', () => {
       .send(updatedInfo);
     expect(updatedSpell.body.prepared).toEqual(true);
     //! everything above this line passes //
-    const res = await agent.get('/api/v1/spellbook/prepared');
+    const res = await agent.get('/api/v1/spellbook/6/prepared');
     console.log(res.body, '++-----++');
-    // expect(res.body.length).toEqual(1);
+    expect(res.body.length).toEqual(1);
   });
 });

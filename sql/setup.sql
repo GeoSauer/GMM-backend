@@ -34,7 +34,6 @@ CREATE TABLE spellbooks (
         FOREIGN KEY (user_id) REFERENCES users(id),
         spell_id BIGINT,
         FOREIGN KEY (spell_id) REFERENCES spells(id),
-        known BOOLEAN DEFAULT true,
         prepared BOOLEAN DEFAULT false
 );
 
@@ -57,12 +56,12 @@ VALUES
 ('arcane-sword', 7, 'evocation', '{"Bard","Wizard"}');
 
 
-INSERT INTO spellbooks (user_id, spell_id, known, prepared)
+INSERT INTO spellbooks (user_id, spell_id, prepared)
 VALUES 
-(1, 1, true, true),
-(1, 3, true, false),
-(1, 4, true, true),
-(1, 5, true, false),
-(2, 5, true, false),
-(3, 2, true, true),
-(4, 4, true, true);
+(1, 1, true),
+(1, 3, false),
+(1, 4, true),
+(1, 5, false),
+(2, 5, false),
+(3, 2, true),
+(4, 4, true);

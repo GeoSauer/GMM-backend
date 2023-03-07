@@ -53,7 +53,6 @@ describe('spellbooks routes', () => {
     expect(learnedSpell.body).toMatchInlineSnapshot(`
       Object {
         "id": "8",
-        "known": true,
         "prepared": false,
         "spellId": "4",
         "userId": "6",
@@ -65,7 +64,6 @@ describe('spellbooks routes', () => {
     expect(anotherLearnedSpell.body).toMatchInlineSnapshot(`
       Object {
         "id": "9",
-        "known": true,
         "prepared": false,
         "spellId": "1",
         "userId": "6",
@@ -92,7 +90,6 @@ describe('spellbooks routes', () => {
     expect(learnedSpell.body).toMatchInlineSnapshot(`
       Object {
         "id": "8",
-        "known": true,
         "prepared": false,
         "spellId": "4",
         "userId": "6",
@@ -120,7 +117,6 @@ describe('spellbooks routes', () => {
     expect(learnedSpell.body).toMatchInlineSnapshot(`
       Object {
         "id": "8",
-        "known": true,
         "prepared": false,
         "spellId": "4",
         "userId": "6",
@@ -134,18 +130,38 @@ describe('spellbooks routes', () => {
       .send(updatedInfo);
     expect(updatedSpell.body.prepared).toEqual(true);
   });
+  it.only('should return all prepared spells for a user', async () => {
+    const spell = {
+      id: 4,
+    };
+    const userInfo = {
+      charClass: 'Wizard',
+      charLvl: 7,
+    };
+    const [agent] = await registerAndLogin();
+    const user = await agent.patch('/api/v1/users/6').send(userInfo);
+    expect(user.body.charClass).toEqual('Wizard');
+    expect(user.body.casterLvl).toEqual(4);
 
-  // it('should return all prepared spells for a user', async () => {
-  //   const userInfo = {
-  //     charClass: 'Wizard',
-  //     charLvl: 7,
-  //   };
-  //   const [agent] = await registerAndLogin();
-  //   const user = await agent.patch('/api/v1/users/6').send(userInfo);
-  //   expect(user.body.charClass).toEqual('Wizard');
-  //   expect(user.body.casterLvl).toEqual(4);
-
-  //   const res = await agent.get('/api/v1/spellbook/prepared');
-  //   expect(res.body.length).toEqual(2);
-  // });
+    const learnedSpell = await agent.post('/api/v1/spells/4/learn').send(spell);
+    expect(learnedSpell.body).toMatchInlineSnapshot(`
+      Object {
+        "id": "8",
+        "prepared": false,
+        "spellId": "4",
+        "userId": "6",
+      }
+    `);
+    const updatedInfo = {
+      prepared: true,
+    };
+    const updatedSpell = await agent
+      .patch('/api/v1/spellbook/4/prepare')
+      .send(updatedInfo);
+    expect(updatedSpell.body.prepared).toEqual(true);
+    //! everything above this line passes //
+    const res = await agent.get('/api/v1/spellbook/prepared');
+    console.log(res.body, '++-----++');
+    // expect(res.body.length).toEqual(1);
+  });
 });

@@ -66,7 +66,6 @@ describe('spell routes', () => {
     expect(learnedSpell.body).toMatchInlineSnapshot(`
       Object {
         "id": "8",
-        "known": true,
         "prepared": false,
         "spellId": "4",
         "userId": "6",

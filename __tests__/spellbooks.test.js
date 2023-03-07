@@ -26,14 +26,14 @@ const registerAndLogin = async (userProps = {}) => {
   return [agent, user];
 };
 
-describe('spellbooks routes', () => {
+describe.skip('spellbooks routes', () => {
   beforeEach(() => {
     return setup(pool);
   });
   afterAll(() => {
     pool.end();
   });
-  it.skip('should return all known spells for a user', async () => {
+  it('should return all known spells for a user', async () => {
     const spell = {
       id: 4,
     };
@@ -73,7 +73,7 @@ describe('spellbooks routes', () => {
     const res = await agent.get('/api/v1/spellbook');
     expect(res.body.length).toEqual(2);
   });
-  it.skip('should let users delete a known spell', async () => {
+  it('should let users delete a known spell', async () => {
     const spell = {
       id: 4,
     };
@@ -100,7 +100,7 @@ describe('spellbooks routes', () => {
 
     await agent.get('/api/v1/spellbook/4').expect(404);
   });
-  it.skip('should let users update the preparation of a spell', async () => {
+  it('should let users update the preparation of a spell', async () => {
     const spell = {
       id: 4,
     };
@@ -130,7 +130,7 @@ describe('spellbooks routes', () => {
       .send(updatedInfo);
     expect(updatedSpell.body.prepared).toEqual(true);
   });
-  it.skip('should return all prepared spells for a user', async () => {
+  it('should return all prepared spells for a user', async () => {
     const spell = {
       id: 4,
     };
@@ -160,7 +160,7 @@ describe('spellbooks routes', () => {
       .send(updatedInfo);
     expect(updatedSpell.body.prepared).toEqual(true);
 
-    const res = await agent.get('/api/v1/spellbook/6/prepared');
+    const res = await agent.get('/api/v1/spellbook/prepared');
     expect(res.body.length).toEqual(1);
   });
 });

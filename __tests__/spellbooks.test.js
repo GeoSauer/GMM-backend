@@ -159,9 +159,8 @@ describe('spellbooks routes', () => {
       .patch('/api/v1/spellbook/4/prepare')
       .send(updatedInfo);
     expect(updatedSpell.body.prepared).toEqual(true);
-    //! everything above this line passes //
+
     const res = await agent.get('/api/v1/spellbook/6/prepared');
-    console.log(res.body, '++-----++');
     expect(res.body.length).toEqual(1);
   });
 });

@@ -32,7 +32,7 @@ const registerAndLogin = async (userProps = {}) => {
   return [agent, user];
 };
 
-describe.skip('user routes', () => {
+describe('user routes', () => {
   beforeEach(() => {
     return setup(pool);
   });
@@ -78,19 +78,21 @@ describe.skip('user routes', () => {
     const [agent] = await registerAndLogin();
     const res = await agent.get('/api/v1/users/6');
 
-    expect(res.body).toEqual({
-      id: '6',
-      username: expect.any(String),
-      email: expect.any(String),
-      charName: null,
-      charClass: null,
-      charLvl: null,
-      charMod: null,
-      casterLvl: null,
-    });
+    expect(res.body).toMatchInlineSnapshot(`
+      Object {
+        "casterLvl": null,
+        "charClass": null,
+        "charLvl": null,
+        "charMod": null,
+        "charName": null,
+        "email": "test@example.com",
+        "id": "6",
+        "username": "Test",
+      }
+    `);
   });
 
-  it('should update a user', async () => {
+  it.only('should update a user', async () => {
     const updates = {
       charName: 'Dandelion',
       charClass: 'Bard',
@@ -113,6 +115,19 @@ describe.skip('user routes', () => {
     expect(secondUpdate.body.charName).toEqual('Dom');
     expect(secondUpdate.body.charClass).toEqual('Warlock');
     expect(secondUpdate.body.charLvl).toEqual(8);
+  });
+
+  it('should update a users spell slots', async () => {
+    const userInfo = {
+      charName: 'Dandelion',
+      charClass: 'Bard',
+      charLvl: 5,
+    };
+    const [agent] = await registerAndLogin();
+    const user = await agent.patch('/api/v1/users/1').send(userInfo);
+    expect(user.status).toBe(200);
+
+    // const res = agent.get();
   });
 
   it('/protected should return a 401 if not authenticated', async () => {

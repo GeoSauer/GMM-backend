@@ -1,23 +1,27 @@
 -- Use this file to define your SQL tables
 -- The SQL in this file will be executed when you run `npm run setup-db`
-DROP TABLE IF EXISTS users, spells, spellbooks CASCADE;
+DROP TABLE IF EXISTS users, spells, spellbooks, spellslots CASCADE;
 
 CREATE TABLE users (
-    id BIGINT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
+        id BIGINT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
     -- //TODO change these back to unique for rls
     -- username TEXT UNIQUE,
-    username TEXT,
+        username TEXT,
     -- email TEXT UNIQUE,
-    email TEXT,
+        email TEXT,
     -- password_hash TEXT NOT NULL,
-    password_hash TEXT,
-    char_name TEXT,
-    char_class TEXT,
-    char_lvl INT,
-    char_mod INT,
-    caster_lvl INT
+        password_hash TEXT,
+        char_name TEXT,
+        char_class TEXT,
+        char_lvl INT,
+        char_mod INT,
+        caster_lvl INT,
+        prof_bonus INT,
     -- //TODO figure out how to host avatars
     -- avatar_url TEXT,
+        cantrips_known INT DEFAULT 0,
+        spells_known INT DEFAULT 0
+
 );
 
 CREATE TABLE spells (
@@ -35,6 +39,22 @@ CREATE TABLE spellbooks (
         spell_id BIGINT,
         FOREIGN KEY (spell_id) REFERENCES spells(id),
         prepared BOOLEAN DEFAULT false
+);
+
+CREATE TABLE spellslots (
+        id BIGINT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
+        user_id BIGINT,
+        FOREIGN KEY (user_id) REFERENCES users(id),
+        cantrips INT DEFAULT 0,
+        level_1 INT DEFAULT 0,
+        level_2 INT DEFAULT 0,
+        level_3 INT DEFAULT 0,
+        level_4 INT DEFAULT 0,
+        level_5 INT DEFAULT 0,
+        level_6 INT DEFAULT 0,
+        level_7 INT DEFAULT 0,
+        level_8 INT DEFAULT 0,
+        level_9 INT DEFAULT 0
 );
 
 -- ! DUMMY DATA FOR TESTING --

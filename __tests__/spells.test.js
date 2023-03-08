@@ -45,7 +45,7 @@ describe.skip('spell routes', () => {
     expect(user.body.casterLvl).toEqual(4);
 
     const res = await agent.get('/api/v1/spells');
-    console.log(res.body, '++++++++=');
+    // console.log(res.body, '++++++++=');
     expect(res.body.length).toEqual(3);
   });
   it('should let users insert/learn an available spell', async () => {

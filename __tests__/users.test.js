@@ -32,7 +32,7 @@ const registerAndLogin = async (userProps = {}) => {
   return [agent, user];
 };
 
-describe.skip('user routes', () => {
+describe('user routes', () => {
   beforeEach(() => {
     return setup(pool);
   });
@@ -47,6 +47,7 @@ describe.skip('user routes', () => {
   });
 
   it('signs in an existing user with an email', async () => {
+    // can you just make this user directly using the UserService to save the API call?
     await request(app).post('/api/v1/users').send(mockExistingUser);
     const res = await request(app)
       .post('/api/v1/users/sessions')
@@ -69,6 +70,22 @@ describe.skip('user routes', () => {
     const res = await agent.get('/api/v1/users/6');
 
     expect(res.body.username).toEqual('Test');
+    // i like to use inlinesnapshot when i have a large object to test against
+    expect(res.body).toMatchInlineSnapshot(`
+      Object {
+        "cantripsKnown": null,
+        "casterLvl": null,
+        "charClass": null,
+        "charLvl": null,
+        "charMod": null,
+        "charName": null,
+        "email": "test@example.com",
+        "id": "6",
+        "profBonus": null,
+        "spellsKnown": null,
+        "username": "Test",
+      }
+    `);
   });
 
   it('should update a user', async () => {
@@ -84,6 +101,7 @@ describe.skip('user routes', () => {
     expect(res.body.charClass).toEqual('Bard');
     expect(res.body.charLvl).toEqual(5);
 
+    // any reason you're testing this twice?
     const newUpdate = {
       charName: 'Dom',
       charClass: 'Sorcerer',
@@ -97,6 +115,7 @@ describe.skip('user routes', () => {
   });
 
   it('should update a users spell slots', async () => {
+    // how is this test different from the test above?
     const userInfo = {
       charName: 'Dandelion',
       charClass: 'Bard',
@@ -105,11 +124,14 @@ describe.skip('user routes', () => {
     const [agent] = await registerAndLogin();
     const user = await agent.patch('/api/v1/users/1').send(userInfo);
     expect(user.status).toBe(200);
-
-    // const res = agent.get();
   });
 
+  // is there a negative test for the update?
+  // meaning, do you need to be the logged in user to update a user?
+  // should you have a test to check that you can't update users that aren't the logged in user?
+
   it('/protected should return a 401 if not authenticated', async () => {
+    // i'm guessing you don't actually need the /protected route - you may just want to delete it if you don't need it
     const res = await request(app).get('/api/v1/users/protected');
     expect(res.status).toEqual(401);
   });
@@ -127,17 +149,21 @@ describe.skip('user routes', () => {
   });
 
   it('/users should return 200 if user is admin', async () => {
+    // i would avoid using your real email in this test
+    // don't expose your email if you don't need to and also this
+    // makes it a more general test that uses your env var
+
     const agent = request.agent(app);
 
     // create a new user
     await agent.post('/api/v1/users').send({
-      email: 'geoffrey.sauer89@gmail.com',
+      email: process.env.EMAIL,
       password: '1234',
     });
     // sign in the user
     await agent
       .post('/api/v1/users/sessions')
-      .send({ email: 'geoffrey.sauer89@gmail.com', password: '1234' });
+      .send({ email: process.env.EMAIL, password: '1234' });
 
     const res = await agent.get('/api/v1/users/');
     expect(res.status).toEqual(200);
@@ -145,7 +171,7 @@ describe.skip('user routes', () => {
 
   it('/users should return a 200 if user is admin', async () => {
     const [agent] = await registerAndLogin({
-      email: 'geoffrey.sauer89@gmail.com',
+      email: process.env.EMAIL,
     });
     const res = await agent.get('/api/v1/users/');
     expect(res.status).toEqual(200);

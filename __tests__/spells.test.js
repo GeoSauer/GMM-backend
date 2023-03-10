@@ -26,7 +26,7 @@ const registerAndLogin = async (userProps = {}) => {
   return [agent, user];
 };
 
-describe.skip('spell routes', () => {
+describe('spell routes', () => {
   beforeEach(() => {
     return setup(pool);
   });
@@ -34,6 +34,10 @@ describe.skip('spell routes', () => {
     pool.end();
   });
   //TODO figure out why this is suddenly failing when the route works fine in thunderclient
+
+  // because you're not sending up the user info when you login, the
+  // actual user saved on the cookie does not have the most up to date user info
+
   it('should return available spells for a user by charClass and casterLvl', async () => {
     const userInfo = {
       charClass: 'Wizard',

@@ -3,7 +3,7 @@ const setup = require('../data/setup');
 const { registerAndLogin } = require('../lib/utils/test-utils');
 const Spellbook = require('../lib/models/Spellbook');
 
-describe.skip('spellbooks routes', () => {
+describe('spellbooks routes', () => {
   beforeEach(() => {
     return setup(pool);
   });
@@ -62,9 +62,7 @@ describe.skip('spellbooks routes', () => {
       prepared: true,
     };
     // await Spellbook.updateSpellPreparation(6, 4, true);
-    const updatedSpell = await agent
-      .patch('/api/v1/spellbook/4/prepare')
-      .send(updatedInfo);
+    await agent.patch('/api/v1/spellbook/4/prepare').send(updatedInfo);
 
     const res = await agent.get('/api/v1/spellbook/prepared');
 

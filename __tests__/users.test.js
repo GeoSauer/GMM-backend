@@ -89,7 +89,7 @@ describe('user routes', () => {
     expect(resp.status).toBe(204);
   });
 });
-
+//TODO either use it or lose it
 //? not being used currently
 // it('GET /me should return all information about a user', async () => {
 //   const [agent] = await registerAndLogin();

@@ -2,7 +2,7 @@ const pool = require('../lib/utils/pool');
 const setup = require('../data/setup');
 const { registerAndLogin } = require('../lib/utils/test-utils');
 
-describe.skip('spell routes', () => {
+describe('spell routes', () => {
   beforeEach(() => {
     return setup(pool);
   });

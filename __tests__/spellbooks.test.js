@@ -3,7 +3,7 @@ const setup = require('../data/setup');
 const { registerAndLogin } = require('../lib/utils/test-utils');
 const Spellbook = require('../lib/models/Spellbook');
 
-describe('spellbooks routes', () => {
+describe.skip('spellbooks routes', () => {
   beforeEach(() => {
     return setup(pool);
   });

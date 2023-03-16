@@ -46,10 +46,8 @@ describe('spellbooks routes', () => {
     const res = await agent
       .patch('/api/v1/spellbook/4/prepare')
       .send(updatedInfo);
-
     expect(res.body.prepared).toEqual(true);
   });
-  //TODO get this guy working without the extra patch api call
   it('GET /prepared should return all prepared spells for a user', async () => {
     const [agent] = await registerAndLogin();
     await Spellbook.insertKnownSpell({
@@ -57,12 +55,12 @@ describe('spellbooks routes', () => {
       spellId: 4,
       prepared: false,
     });
-
     const updatedInfo = {
+      userId: 6,
+      spellId: 4,
       prepared: true,
     };
-    // await Spellbook.updateSpellPreparation(6, 4, true);
-    await agent.patch('/api/v1/spellbook/4/prepare').send(updatedInfo);
+    await Spellbook.updateSpellPreparation(updatedInfo);
 
     const res = await agent.get('/api/v1/spellbook/prepared');
 

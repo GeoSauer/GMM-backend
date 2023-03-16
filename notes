@@ -1,5 +1,16 @@
 // available (class, charLvl) -> known -> prepared
 
+//? this function is no longer being used, but it was really cool
+// const convertCasterLvlToSpellLvl = (num) => {
+//   const params = new URLSearchParams();
+
+//   params.set('level', 0);
+//   for (let i = 1; i <= num; i++) {
+//     params.append('level', i);
+//   }
+//   return params;
+// };
+
 //? handy dandy function for the later times
 // const convertIndexToName = (index) => {
 //   const firstLetters = /\b(\w)/g;
@@ -9,32 +20,23 @@
 
 //? SPELL LEVEL CAP 9
 // Bard:
-// spells known: 1(4), 2(5), 3(6), 4(7), 5(8), 6(9), 7(10), 8(11), 9(12), 10(14), 11-12(15), 13(16), 14(18), 15-16(19), 17(20), 18-20(22)
-// cantrips known: 1-3(2), 4-9(3), 10-20(4)
 // spell save DC: 8+prof+Cha
 // spell atk mod: prof+Cha
 
 // Cleric:
-// spells known: Wis+lvl
-// cantrips known: 1-3(3), 4-9(4), 10-20(5)
 // spell save DC: 8+prof+Wis
 // spell atk mod: prof+Wis
 
 // Druid:
-// spells known: Wis+lvl
-// cantrips known: 1-3(2), 4-9(3), 10-20(4)
 // spell save DC: 8+prof+Wis
 // spell atk mod: prof+Wis
 
 // Sorcerer:
-// spells known: 1(2), 2(3), 3(4), 5(6), 6(7), 7(8), 8(9), 9(10), 10(11), 11-12(12), 13-14(13), 15-16(14), 17-20(15)
-// cantrips known: 1-3(4), 4-9(5), 10-20(6)
 // spell save DC: 8+prof+Cha
 // spell atk mod: prof+Cha
 
 // Wizard:
 // spells known: Int+lvl
-// cantrips known: 1-3(3), 4-9(4), 10-20(5)
 // spell save DC: 8+prof+Int
 // spell atk mod: prof+Int
 

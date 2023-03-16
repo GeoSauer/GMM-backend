@@ -2,37 +2,10 @@ const pool = require('../lib/utils/pool');
 const setup = require('../data/setup');
 const request = require('supertest');
 const app = require('../lib/app');
+const { mockUser, registerAndLogin } = require('../lib/utils/test-utils');
 const UserService = require('../lib/services/UserService');
 
-//* Dummy users for testing
-const mockNewUser = {
-  email: 'test@example.com',
-  password: '12345',
-};
-
-const mockExistingUser = {
-  username: 'Test',
-  email: 'test@example.com',
-  password: '12345',
-};
-
-const registerAndLogin = async (userProps = {}) => {
-  const password = userProps.password ?? mockExistingUser.password;
-
-  // Create an "agent" that gives us the ability
-  // to store cookies between requests in a test
-  const agent = request.agent(app);
-
-  // Create a user to sign in with
-  const user = await UserService.create({ ...mockExistingUser, ...userProps });
-
-  // ...then sign in
-  const { email } = user;
-  await agent.post('/api/v1/users/sessions').send({ email, password });
-  return [agent, user];
-};
-
-describe.skip('user routes', () => {
+describe('user routes', () => {
   beforeEach(() => {
     return setup(pool);
   });
@@ -40,14 +13,14 @@ describe.skip('user routes', () => {
     pool.end();
   });
 
-  it('creates a new user', async () => {
-    const res = await request(app).post('/api/v1/users').send(mockNewUser);
+  it('POST / should create a new user', async () => {
+    const res = await request(app).post('/api/v1/users').send(mockUser);
 
     expect(res.body.email).toEqual('test@example.com');
   });
 
-  it('signs in an existing user with an email', async () => {
-    await request(app).post('/api/v1/users').send(mockExistingUser);
+  it('POST / should sign in an existing user with an email', async () => {
+    await UserService.create({ ...mockUser });
     const res = await request(app)
       .post('/api/v1/users/sessions')
       .send({ email: 'test@example.com', password: '12345' });
@@ -55,8 +28,8 @@ describe.skip('user routes', () => {
     expect(res.status).toEqual(200);
   });
 
-  it('signs in an existing user with a username', async () => {
-    await request(app).post('/api/v1/users').send(mockExistingUser);
+  it('POST / should sign in an existing user with a username', async () => {
+    await UserService.create({ ...mockUser });
     const res = await request(app)
       .post('/api/v1/users/sessions')
       .send({ username: 'Test', password: '12345' });
@@ -64,91 +37,122 @@ describe.skip('user routes', () => {
     expect(res.status).toEqual(200);
   });
 
-  it('get user by id, return all information about the user', async () => {
+  it('PATCH /update should update a user', async () => {
     const [agent] = await registerAndLogin();
-    const res = await agent.get('/api/v1/users/6');
-
-    expect(res.body.username).toEqual('Test');
-  });
-
-  it('should update a user', async () => {
     const updates = {
       charName: 'Dandelion',
       charClass: 'Bard',
       charLvl: 5,
     };
-    const [agent] = await registerAndLogin();
-    const res = await agent.patch('/api/v1/users/1').send(updates);
+    const res = await agent.patch('/api/v1/users/update').send(updates);
 
-    expect(res.body.charName).toEqual('Dandelion');
-    expect(res.body.charClass).toEqual('Bard');
-    expect(res.body.charLvl).toEqual(5);
-
-    const newUpdate = {
-      charName: 'Dom',
-      charClass: 'Sorcerer',
-      charLvl: 8,
-    };
-    const secondUpdate = await agent.patch('/api/v1/users/1').send(newUpdate);
-
-    expect(secondUpdate.body.charName).toEqual('Dom');
-    expect(secondUpdate.body.charClass).toEqual('Sorcerer');
-    expect(secondUpdate.body.charLvl).toEqual(8);
+    expect(res.body).toMatchInlineSnapshot(`
+      Object {
+        "cantripsKnown": 3,
+        "casterLvl": 3,
+        "charClass": "Bard",
+        "charLvl": 5,
+        "charMod": 3,
+        "charName": "Dandelion",
+        "email": "test@example.com",
+        "id": "6",
+        "level1SpellSlots": 4,
+        "level2SpellSlots": 3,
+        "level3SpellSlots": 2,
+        "level4SpellSlots": 0,
+        "level5SpellSlots": 0,
+        "level6SpellSlots": 0,
+        "level7SpellSlots": 0,
+        "level8SpellSlots": 0,
+        "level9SpellSlots": 0,
+        "profBonus": 3,
+        "spellsKnown": 8,
+        "username": "Test",
+      }
+    `);
   });
 
-  it('should update a users spell slots', async () => {
-    const userInfo = {
+  it('PATCH /update should return a 401 if no user', async () => {
+    const updates = {
       charName: 'Dandelion',
       charClass: 'Bard',
       charLvl: 5,
     };
+    const res = await request(app).patch('/api/v1/users/update').send(updates);
+
+    expect(res.status).toBe(401);
+  });
+
+  it('GET /me should return all information about a user', async () => {
     const [agent] = await registerAndLogin();
-    const user = await agent.patch('/api/v1/users/1').send(userInfo);
-    expect(user.status).toBe(200);
+    const res = await agent.get('/api/v1/users/me');
 
-    // const res = agent.get();
+    expect(res.body).toMatchInlineSnapshot(`
+          Object {
+            "cantripsKnown": 4,
+            "casterLvl": 4,
+            "charClass": "Wizard",
+            "charLvl": 8,
+            "charMod": 3,
+            "charName": "CharTest",
+            "email": "test@example.com",
+            "id": "6",
+            "level1SpellSlots": 4,
+            "level2SpellSlots": 3,
+            "level3SpellSlots": 3,
+            "level4SpellSlots": 2,
+            "level5SpellSlots": 0,
+            "level6SpellSlots": 0,
+            "level7SpellSlots": 0,
+            "level8SpellSlots": 0,
+            "level9SpellSlots": 0,
+            "profBonus": 3,
+            "spellsKnown": 16,
+            "username": "Test",
+          }
+      `);
   });
 
-  it('/protected should return a 401 if not authenticated', async () => {
-    const res = await request(app).get('/api/v1/users/protected');
-    expect(res.status).toEqual(401);
+  it('GET /me should return a 401 if no user', async () => {
+    const res = await request(app).get('/api/v1/users/me');
+
+    expect(res.status).toBe(401);
   });
 
-  it('/protected should return the current user if authenticated', async () => {
-    const [agent] = await registerAndLogin();
-    const res = await agent.get('/api/v1/users/protected');
-    expect(res.status).toEqual(200);
-  });
-
-  it('/users should return 401 if user not admin', async () => {
+  it('GET / should return a user by id', async () => {
     const [agent] = await registerAndLogin();
     const res = await agent.get('/api/v1/users/');
-    expect(res.status).toEqual(403);
+
+    expect(res.body).toMatchInlineSnapshot(`
+      Object {
+        "cantripsKnown": 4,
+        "casterLvl": 4,
+        "charClass": "Wizard",
+        "charLvl": 8,
+        "charMod": 3,
+        "charName": "CharTest",
+        "email": "test@example.com",
+        "id": "6",
+        "level1SpellSlots": 4,
+        "level2SpellSlots": 3,
+        "level3SpellSlots": 3,
+        "level4SpellSlots": 2,
+        "level5SpellSlots": 0,
+        "level6SpellSlots": 0,
+        "level7SpellSlots": 0,
+        "level8SpellSlots": 0,
+        "level9SpellSlots": 0,
+        "profBonus": 3,
+        "spellsKnown": 16,
+        "username": "Test",
+      }
+    `);
   });
 
-  it('/users should return 200 if user is admin', async () => {
-    const agent = request.agent(app);
+  it('GET / should return a 401 if no user', async () => {
+    const res = await request(app).get('/api/v1/users/');
 
-    // create a new user
-    await agent.post('/api/v1/users').send({
-      email: 'geoffrey.sauer89@gmail.com',
-      password: '1234',
-    });
-    // sign in the user
-    await agent
-      .post('/api/v1/users/sessions')
-      .send({ email: 'geoffrey.sauer89@gmail.com', password: '1234' });
-
-    const res = await agent.get('/api/v1/users/');
-    expect(res.status).toEqual(200);
-  });
-
-  it('/users should return a 200 if user is admin', async () => {
-    const [agent] = await registerAndLogin({
-      email: 'geoffrey.sauer89@gmail.com',
-    });
-    const res = await agent.get('/api/v1/users/');
-    expect(res.status).toEqual(200);
+    expect(res.status).toBe(401);
   });
 
   it('DELETE /sessions deletes the user session', async () => {

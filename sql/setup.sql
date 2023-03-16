@@ -1,6 +1,6 @@
 -- Use this file to define your SQL tables
 -- The SQL in this file will be executed when you run `npm run setup-db`
-DROP TABLE IF EXISTS users, spells, spellbooks, spellslots CASCADE;
+DROP TABLE IF EXISTS users, spells, spellbooks CASCADE;
 
 CREATE TABLE users (
         id BIGINT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
@@ -20,8 +20,16 @@ CREATE TABLE users (
     -- //TODO figure out how to host avatars
     -- avatar_url TEXT,
         cantrips_known INT DEFAULT 0,
-        spells_known INT DEFAULT 0
-
+        spells_known INT DEFAULT 0,
+        level_1_spell_slots INT DEFAULT 0,
+        level_2_spell_slots INT DEFAULT 0,
+        level_3_spell_slots INT DEFAULT 0,
+        level_4_spell_slots INT DEFAULT 0,
+        level_5_spell_slots INT DEFAULT 0,
+        level_6_spell_slots INT DEFAULT 0,
+        level_7_spell_slots INT DEFAULT 0,
+        level_8_spell_slots INT DEFAULT 0,
+        level_9_spell_slots INT DEFAULT 0
 );
 
 CREATE TABLE spells (
@@ -39,22 +47,6 @@ CREATE TABLE spellbooks (
         spell_id BIGINT,
         FOREIGN KEY (spell_id) REFERENCES spells(id),
         prepared BOOLEAN DEFAULT false
-);
-
-CREATE TABLE spellslots (
-        id BIGINT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
-        user_id BIGINT,
-        FOREIGN KEY (user_id) REFERENCES users(id),
-        cantrips INT DEFAULT 0,
-        level_1 INT DEFAULT 0,
-        level_2 INT DEFAULT 0,
-        level_3 INT DEFAULT 0,
-        level_4 INT DEFAULT 0,
-        level_5 INT DEFAULT 0,
-        level_6 INT DEFAULT 0,
-        level_7 INT DEFAULT 0,
-        level_8 INT DEFAULT 0,
-        level_9 INT DEFAULT 0
 );
 
 -- ! DUMMY DATA FOR TESTING --

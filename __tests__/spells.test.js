@@ -15,12 +15,12 @@ describe('spell routes', () => {
 
     expect(res.body.length).toEqual(3);
   });
-  it('POST /:id/learn should let users insert/learn an available spell', async () => {
+  it('POST /learn should let users insert/learn an available spell', async () => {
     const [agent] = await registerAndLogin();
     const newSpell = {
       id: 4,
     };
-    const { body } = await agent.post('/api/v1/spells/4/learn').send(newSpell);
+    const { body } = await agent.post('/api/v1/spells/learn').send(newSpell);
     expect(body).toMatchInlineSnapshot(`
       Object {
         "id": "8",

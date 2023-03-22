@@ -33,7 +33,7 @@ describe('knownSpells routes', () => {
 
     await agent.get('/api/v1/known-spells/4').expect(404);
   });
-  it('PATCH /:id/prepare should let users prepare a known spell', async () => {
+  it('PATCH /prepare should let users prepare a known spell', async () => {
     const [agent] = await registerAndLogin();
     await KnownSpell.insertKnownSpell({
       userId: 6,
@@ -41,10 +41,11 @@ describe('knownSpells routes', () => {
       prepared: false,
     });
     const updatedInfo = {
+      spellId: 4,
       prepared: true,
     };
     const res = await agent
-      .patch('/api/v1/known-spells/4/prepare')
+      .patch('/api/v1/known-spells/prepare')
       .send(updatedInfo);
     expect(res.body.prepared).toEqual(true);
   });

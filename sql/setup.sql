@@ -1,6 +1,6 @@
 -- Use this file to define your SQL tables
 -- The SQL in this file will be executed when you run `npm run setup-db`
-DROP TABLE IF EXISTS users, spells, spellbooks CASCADE;
+DROP TABLE IF EXISTS users, spells, known_spells CASCADE;
 
 CREATE TABLE users (
         id BIGINT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
@@ -40,7 +40,7 @@ CREATE TABLE spells (
         classes TEXT[] DEFAULT ARRAY[]::TEXT[]
 );
 
-CREATE TABLE spellbooks (
+CREATE TABLE known_spells (
         id BIGINT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
         user_id BIGINT,
         FOREIGN KEY (user_id) REFERENCES users(id),
@@ -68,7 +68,7 @@ VALUES
 ('arcane-sword', 7, 'evocation', '{"Bard","Wizard"}');
 
 
-INSERT INTO spellbooks (user_id, spell_id, prepared)
+INSERT INTO known_spells (user_id, spell_id, prepared)
 VALUES 
 (1, 1, true),
 (1, 3, false),

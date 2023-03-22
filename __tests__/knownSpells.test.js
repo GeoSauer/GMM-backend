@@ -1,9 +1,9 @@
 const pool = require('../lib/utils/pool');
 const setup = require('../data/setup');
 const { registerAndLogin } = require('../lib/utils/test-utils');
-const Spellbook = require('../lib/models/Spellbook');
+const KnownSpell = require('../lib/models/KnownSpell');
 
-describe('spellbooks routes', () => {
+describe('knownSpells routes', () => {
   beforeEach(() => {
     return setup(pool);
   });
@@ -12,30 +12,30 @@ describe('spellbooks routes', () => {
   });
   it('GET / should return all known spells for a user', async () => {
     const [agent] = await registerAndLogin();
-    await Spellbook.insertKnownSpell({
+    await KnownSpell.insertKnownSpell({
       userId: 6,
       spellId: 4,
       prepared: false,
     });
-    const res = await agent.get('/api/v1/spellbook');
+    const res = await agent.get('/api/v1/known-spells');
 
     expect(res.body.length).toEqual(1);
   });
   it('DELETE /:id should let users delete a known spell', async () => {
     const [agent] = await registerAndLogin();
-    await Spellbook.insertKnownSpell({
+    await KnownSpell.insertKnownSpell({
       userId: 6,
       spellId: 4,
       prepared: false,
     });
 
-    await agent.delete('/api/v1/spellbook/4').expect(200);
+    await agent.delete('/api/v1/known-spells/4').expect(200);
 
-    await agent.get('/api/v1/spellbook/4').expect(404);
+    await agent.get('/api/v1/known-spells/4').expect(404);
   });
   it('PATCH /:id/prepare should let users prepare a known spell', async () => {
     const [agent] = await registerAndLogin();
-    await Spellbook.insertKnownSpell({
+    await KnownSpell.insertKnownSpell({
       userId: 6,
       spellId: 4,
       prepared: false,
@@ -44,13 +44,13 @@ describe('spellbooks routes', () => {
       prepared: true,
     };
     const res = await agent
-      .patch('/api/v1/spellbook/4/prepare')
+      .patch('/api/v1/known-spells/4/prepare')
       .send(updatedInfo);
     expect(res.body.prepared).toEqual(true);
   });
   it('GET /prepared should return all prepared spells for a user', async () => {
     const [agent] = await registerAndLogin();
-    await Spellbook.insertKnownSpell({
+    await KnownSpell.insertKnownSpell({
       userId: 6,
       spellId: 4,
       prepared: false,
@@ -60,9 +60,9 @@ describe('spellbooks routes', () => {
       spellId: 4,
       prepared: true,
     };
-    await Spellbook.updateSpellPreparation(updatedInfo);
+    await KnownSpell.updateSpellPreparation(updatedInfo);
 
-    const res = await agent.get('/api/v1/spellbook/prepared');
+    const res = await agent.get('/api/v1/known-spells/prepared');
 
     expect(res.body.length).toEqual(1);
   });

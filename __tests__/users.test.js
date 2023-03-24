@@ -48,7 +48,7 @@ describe('user routes', () => {
 
     expect(res.body).toMatchInlineSnapshot(`
       Object {
-        "cantripsKnown": 3,
+        "cantripsAvailable": 3,
         "casterLvl": 3,
         "charClass": "Bard",
         "charLvl": 5,
@@ -66,7 +66,7 @@ describe('user routes', () => {
         "level8SpellSlots": 0,
         "level9SpellSlots": 0,
         "profBonus": 3,
-        "spellsKnown": 8,
+        "spellsAvailable": 8,
         "username": "Test",
       }
     `);
@@ -89,7 +89,7 @@ describe('user routes', () => {
 
     expect(res.body).toMatchInlineSnapshot(`
           Object {
-            "cantripsKnown": 4,
+            "cantripsAvailable": 4,
             "casterLvl": 4,
             "charClass": "Wizard",
             "charLvl": 8,
@@ -107,7 +107,7 @@ describe('user routes', () => {
             "level8SpellSlots": 0,
             "level9SpellSlots": 0,
             "profBonus": 3,
-            "spellsKnown": 16,
+            "spellsAvailable": 16,
             "username": "Test",
           }
       `);
@@ -125,7 +125,7 @@ describe('user routes', () => {
 
     expect(res.body).toMatchInlineSnapshot(`
       Object {
-        "cantripsKnown": 4,
+        "cantripsAvailable": 4,
         "casterLvl": 4,
         "charClass": "Wizard",
         "charLvl": 8,
@@ -143,7 +143,7 @@ describe('user routes', () => {
         "level8SpellSlots": 0,
         "level9SpellSlots": 0,
         "profBonus": 3,
-        "spellsKnown": 16,
+        "spellsAvailable": 16,
         "username": "Test",
       }
     `);

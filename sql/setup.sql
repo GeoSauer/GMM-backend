@@ -19,7 +19,9 @@ CREATE TABLE users (
         prof_bonus INT,
     -- //TODO figure out how to host avatars
     -- avatar_url TEXT,
+        cantrips_available INT DEFAULT 0,
         cantrips_known INT DEFAULT 0,
+        spells_available INT DEFAULT 0,
         spells_known INT DEFAULT 0,
         level_1_spell_slots INT DEFAULT 0,
         level_2_spell_slots INT DEFAULT 0,

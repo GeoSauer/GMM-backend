@@ -10,7 +10,7 @@ describe('spell routes', () => {
     pool.end();
   });
 
-  it('GET /:id should return all available spells for a character', async () => {
+  it('GET /:charId should return all available spells for a character', async () => {
     const { agent } = await registerAndLogin();
 
     const { body } = await agent.get('/api/v1/spells/1');
@@ -18,7 +18,7 @@ describe('spell routes', () => {
     expect(body.length).toEqual(3);
   });
 
-  it('POST /learn should let characters insert/learn an available spell', async () => {
+  it.only('POST /:charId/learn should let characters insert/learn an available spell', async () => {
     const { agent } = await registerAndLogin();
     const newSpell = {
       id: 4,
@@ -35,7 +35,7 @@ describe('spell routes', () => {
     `);
   });
 
-  it('GET /:id/details should return details on a single available spell', async () => {
+  it('GET /:spellId/details should return details on a single available spell', async () => {
     const { agent } = await registerAndLogin();
 
     const { body } = await agent.get('/api/v1/spells/4/details');

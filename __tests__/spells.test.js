@@ -9,32 +9,37 @@ describe('spell routes', () => {
   afterAll(() => {
     pool.end();
   });
-  it('GET / should return all available spells for a user', async () => {
-    const [agent] = await registerAndLogin();
-    const res = await agent.get('/api/v1/spells');
 
-    expect(res.body.length).toEqual(3);
+  it('GET /:id should return all available spells for a character', async () => {
+    const { agent } = await registerAndLogin();
+
+    const { body } = await agent.get('/api/v1/spells/1');
+
+    expect(body.length).toEqual(3);
   });
-  it('POST /learn should let users insert/learn an available spell', async () => {
-    const [agent] = await registerAndLogin();
+
+  it('POST /learn should let characters insert/learn an available spell', async () => {
+    const { agent } = await registerAndLogin();
     const newSpell = {
       id: 4,
     };
-    const { body } = await agent.post('/api/v1/spells/learn').send(newSpell);
+    const { body } = await agent.post('/api/v1/spells/1/learn').send(newSpell);
     expect(body).toMatchInlineSnapshot(`
       Object {
-        "id": "8",
+        "charId": "1",
+        "id": "1",
         "prepared": false,
         "spellId": "4",
-        "userId": "6",
+        "userId": "1",
       }
     `);
   });
-  it('GET /:id/details should return details on a single available spell', async () => {
-    const [agent] = await registerAndLogin();
 
-    const res = await agent.get('/api/v1/spells/4/details');
-    expect(res.body).toMatchInlineSnapshot(`
+  it('GET /:id/details should return details on a single available spell', async () => {
+    const { agent } = await registerAndLogin();
+
+    const { body } = await agent.get('/api/v1/spells/4/details');
+    expect(body).toMatchInlineSnapshot(`
       Object {
         "areaOfEffect": Object {
           "size": 30,

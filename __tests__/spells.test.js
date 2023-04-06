@@ -1,6 +1,6 @@
 const pool = require('../lib/utils/pool');
 const setup = require('../data/setup');
-const { registerAndLogin } = require('../lib/utils/test-utils');
+const { registerAndLogin, mockSpell } = require('../lib/utils/test-utils');
 
 describe('spell routes', () => {
   beforeEach(() => {
@@ -9,37 +9,48 @@ describe('spell routes', () => {
   afterAll(() => {
     pool.end();
   });
-  it('GET / should return all available spells for a user', async () => {
-    const [agent] = await registerAndLogin();
-    const res = await agent.get('/api/v1/spells');
 
-    expect(res.body.length).toEqual(3);
+  it('GET /:charId should return all available spells for a character', async () => {
+    const { agent } = await registerAndLogin();
+
+    const { body } = await agent.get('/api/v1/spells/1');
+
+    expect(body.length).toEqual(3);
   });
-  it('POST /:id/learn should let users insert/learn an available spell', async () => {
-    const [agent] = await registerAndLogin();
-    const newSpell = {
-      id: 4,
-    };
-    const { body } = await agent.post('/api/v1/spells/4/learn').send(newSpell);
+
+  it('POST /:charId/learn should let characters insert/learn an available spell', async () => {
+    const { agent } = await registerAndLogin();
+
+    const { body } = await agent.post('/api/v1/spells/1/learn').send(mockSpell);
+
     expect(body).toMatchInlineSnapshot(`
       Object {
-        "id": "8",
+        "charId": "1",
+        "id": "1",
         "prepared": false,
         "spellId": "4",
-        "userId": "6",
+        "userId": "1",
       }
     `);
   });
-  it('GET /:id/details should return details on a single available spell', async () => {
-    const [agent] = await registerAndLogin();
 
-    const res = await agent.get('/api/v1/spells/4/details');
-    expect(res.body).toMatchInlineSnapshot(`
+  it('GET /:spellId/details should return details on a single available spell', async () => {
+    const { agent } = await registerAndLogin();
+
+    const { body } = await agent.get('/api/v1/spells/4/details');
+
+    expect(body).toMatchInlineSnapshot(`
       Object {
+        "areaOfEffect": Object {
+          "size": 30,
+          "type": "sphere",
+        },
         "area_of_effect": Object {
           "size": 30,
           "type": "sphere",
         },
+        "attackType": null,
+        "castingTime": "1 action",
         "casting_time": "1 action",
         "classes": Array [
           Object {
@@ -59,12 +70,19 @@ describe('spell routes', () => {
           "M",
         ],
         "concentration": true,
+        "damage": Object {
+          "damageAtCharacterLevel": null,
+          "damageAtSlotLevel": null,
+          "damageType": null,
+        },
         "desc": Array [
-          "You create an invisible, magical eye within range that hovers in the air for the duration.",
+          "
+      You create an invisible, magical eye within range that hovers in the air for the duration.",
           "You mentally receive visual information from the eye, which has normal vision and darkvision out to 30 feet. The eye can look in every direction.",
           "As an action, you can move the eye up to 30 feet in any direction. There is no limit to how far away from you the eye can move, but it can't enter another plane of existence. A solid barrier blocks the eye's movement, but the eye can pass through an opening as small as 1 inch in diameter.",
         ],
         "duration": "Up to 1 hour",
+        "higherLevel": Array [],
         "higher_level": Array [],
         "index": "arcane-eye",
         "level": 4,
@@ -72,6 +90,10 @@ describe('spell routes', () => {
         "name": "Arcane Eye",
         "range": "30 feet",
         "ritual": false,
+        "saveDc": Object {
+          "success": null,
+          "type": null,
+        },
         "school": Object {
           "index": "divination",
           "name": "Divination",

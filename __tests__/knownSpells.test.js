@@ -3,7 +3,7 @@ const setup = require('../data/setup');
 const { registerAndLogin } = require('../lib/utils/test-utils');
 const KnownSpell = require('../lib/models/KnownSpell');
 
-describe.skip('knownSpells routes', () => {
+describe('knownSpells routes', () => {
   beforeEach(() => {
     return setup(pool);
   });
@@ -12,10 +12,10 @@ describe.skip('knownSpells routes', () => {
   });
   it('GET /:charId should return all known spells for a character', async () => {
     const { agent, user } = await registerAndLogin();
-    await KnownSpell.insertKnownSpell(user.id, {
+    await KnownSpell.insertKnownSpell({
+      userId: user.id,
       charId: 1,
       spellId: 4,
-      prepared: false,
     });
     const { body } = await agent.get('/api/v1/known-spells/1');
     expect(body.length).toEqual(1);
@@ -23,10 +23,10 @@ describe.skip('knownSpells routes', () => {
 
   it('DELETE /:charId/:spellId should let character delete a known spell', async () => {
     const { agent, user } = await registerAndLogin();
-    await KnownSpell.insertKnownSpell(user.id, {
+    await KnownSpell.insertKnownSpell({
+      userId: user.id,
       charId: 1,
       spellId: 4,
-      prepared: false,
     });
 
     await agent.delete('/api/v1/known-spells/1/4').expect(200);
@@ -36,10 +36,10 @@ describe.skip('knownSpells routes', () => {
 
   it('PATCH /:charId/prepare should let characters prepare a known spell', async () => {
     const { agent, user } = await registerAndLogin();
-    await KnownSpell.insertKnownSpell(user.id, {
+    await KnownSpell.insertKnownSpell({
+      userId: user.id,
       charId: 1,
       spellId: 4,
-      prepared: false,
     });
     const updatedInfo = {
       spellId: 4,
@@ -54,10 +54,10 @@ describe.skip('knownSpells routes', () => {
 
   it('GET /:charId/prepared should return all prepared spells for a character', async () => {
     const { agent, user } = await registerAndLogin();
-    await KnownSpell.insertKnownSpell(user.id, {
+    await KnownSpell.insertKnownSpell({
+      userId: user.id,
       charId: 1,
       spellId: 4,
-      prepared: false,
     });
     const updatedInfo = {
       charId: 1,

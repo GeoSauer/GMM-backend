@@ -18,7 +18,7 @@ describe('spell routes', () => {
     expect(body.length).toEqual(3);
   });
 
-  it.only('POST /:charId/learn should let characters insert/learn an available spell', async () => {
+  it('POST /:charId/learn should let characters insert/learn an available spell', async () => {
     const { agent } = await registerAndLogin();
     const newSpell = {
       id: 4,

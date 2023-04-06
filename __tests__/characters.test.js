@@ -2,7 +2,7 @@ const pool = require('../lib/utils/pool');
 const setup = require('../data/setup');
 const { mockCharacter, registerAndLogin } = require('../lib/utils/test-utils');
 
-describe.skip('character routes', () => {
+describe('character routes', () => {
   beforeEach(() => {
     return setup(pool);
   });

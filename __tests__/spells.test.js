@@ -24,6 +24,7 @@ describe('spell routes', () => {
       id: 4,
     };
     const { body } = await agent.post('/api/v1/spells/1/learn').send(newSpell);
+
     expect(body).toMatchInlineSnapshot(`
       Object {
         "charId": "1",

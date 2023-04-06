@@ -39,7 +39,7 @@ describe.skip('character routes', () => {
 
     expect(body).toMatchInlineSnapshot(`
       Object {
-        "cantripsAvailable": 3,
+        "cantripsAvailable": 4,
         "cantripsKnown": 0,
         "casterLvl": 4,
         "charClass": "Wizard",
@@ -56,9 +56,9 @@ describe.skip('character routes', () => {
         "level7SpellSlots": 0,
         "level8SpellSlots": 0,
         "level9SpellSlots": 0,
-        "profBonus": 0,
-        "spellsAvailable": 4,
-        "spellsKnown": 16,
+        "profBonus": 3,
+        "spellsAvailable": 16,
+        "spellsKnown": 0,
         "userId": "1",
       }
     `);
@@ -72,7 +72,7 @@ describe.skip('character routes', () => {
     expect(body).toMatchInlineSnapshot(`
       Array [
         Object {
-          "cantripsAvailable": 3,
+          "cantripsAvailable": 4,
           "cantripsKnown": 0,
           "casterLvl": 4,
           "charClass": "Wizard",
@@ -89,9 +89,9 @@ describe.skip('character routes', () => {
           "level7SpellSlots": 0,
           "level8SpellSlots": 0,
           "level9SpellSlots": 0,
-          "profBonus": 0,
-          "spellsAvailable": 4,
-          "spellsKnown": 16,
+          "profBonus": 3,
+          "spellsAvailable": 16,
+          "spellsKnown": 0,
           "userId": "1",
         },
       ]

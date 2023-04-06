@@ -30,7 +30,7 @@ describe.skip('user routes', () => {
 
   it('POST /sessions should sign in an existing user with a username', async () => {
     await UserService.create({ ...mockUser });
-    const res = await request(app)
+    await request(app)
       .post('/api/v1/users/sessions')
       .send({ username: 'Test', password: '12345' })
       .expect(200);
@@ -74,7 +74,7 @@ describe.skip('user routes', () => {
   });
 
   it('GET /me should return a 401 if no user', async () => {
-    const res = await request(app).get('/api/v1/users/me').expect(401);
+    await request(app).get('/api/v1/users/me').expect(401);
   });
 
   it('GET / should return a user by id', async () => {
@@ -91,7 +91,7 @@ describe.skip('user routes', () => {
   });
 
   it('GET / should return a 401 if no user', async () => {
-    const res = await request(app).get('/api/v1/users/').expect(401);
+    await request(app).get('/api/v1/users/').expect(401);
   });
 
   it('DELETE /sessions deletes the user session', async () => {

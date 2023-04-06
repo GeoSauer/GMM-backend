@@ -1,6 +1,6 @@
 const pool = require('../lib/utils/pool');
 const setup = require('../data/setup');
-const { registerAndLogin } = require('../lib/utils/test-utils');
+const { registerAndLogin, mockSpell } = require('../lib/utils/test-utils');
 
 describe('spell routes', () => {
   beforeEach(() => {
@@ -20,10 +20,8 @@ describe('spell routes', () => {
 
   it('POST /:charId/learn should let characters insert/learn an available spell', async () => {
     const { agent } = await registerAndLogin();
-    const newSpell = {
-      id: 4,
-    };
-    const { body } = await agent.post('/api/v1/spells/1/learn').send(newSpell);
+
+    const { body } = await agent.post('/api/v1/spells/1/learn').send(mockSpell);
 
     expect(body).toMatchInlineSnapshot(`
       Object {
@@ -40,6 +38,7 @@ describe('spell routes', () => {
     const { agent } = await registerAndLogin();
 
     const { body } = await agent.get('/api/v1/spells/4/details');
+
     expect(body).toMatchInlineSnapshot(`
       Object {
         "areaOfEffect": Object {

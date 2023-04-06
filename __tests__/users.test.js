@@ -2,7 +2,11 @@ const pool = require('../lib/utils/pool');
 const setup = require('../data/setup');
 const request = require('supertest');
 const app = require('../lib/app');
-const { mockUser, registerAndLogin } = require('../lib/utils/test-utils');
+const {
+  mockUser,
+  registerAndLogin,
+  mockUserUpdate,
+} = require('../lib/utils/test-utils');
 const UserService = require('../lib/services/UserService');
 
 describe('user routes', () => {
@@ -38,10 +42,10 @@ describe('user routes', () => {
 
   it('PATCH /update should update a user', async () => {
     const { agent } = await registerAndLogin();
-    const update = {
-      username: 'TestUpdate',
-    };
-    const { body } = await agent.patch('/api/v1/users/update').send(update);
+
+    const { body } = await agent
+      .patch('/api/v1/users/update')
+      .send(mockUserUpdate);
 
     expect(body).toMatchInlineSnapshot(`
       Object {
@@ -53,15 +57,15 @@ describe('user routes', () => {
   });
 
   it('PATCH /update should return a 401 if no user', async () => {
-    const update = {
-      username: 'TestUpdate',
-    };
-
-    await request(app).patch('/api/v1/users/update').send(update).expect(401);
+    await request(app)
+      .patch('/api/v1/users/update')
+      .send(mockUserUpdate)
+      .expect(401);
   });
 
   it('GET /me should return all information about a user', async () => {
     const { agent } = await registerAndLogin();
+
     const { body } = await agent.get('/api/v1/users/me');
 
     expect(body).toMatchInlineSnapshot(`
@@ -79,6 +83,7 @@ describe('user routes', () => {
 
   it('GET / should return a user by id', async () => {
     const { agent } = await registerAndLogin();
+
     const { body } = await agent.get('/api/v1/users/');
 
     expect(body).toMatchInlineSnapshot(`
@@ -96,6 +101,7 @@ describe('user routes', () => {
 
   it('DELETE /sessions deletes the user session', async () => {
     const { agent } = await registerAndLogin();
+
     await agent.delete('/api/v1/users/sessions').expect(204);
   });
 });

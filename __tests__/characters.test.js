@@ -1,6 +1,10 @@
 const pool = require('../lib/utils/pool');
 const setup = require('../data/setup');
-const { mockCharacter, registerAndLogin } = require('../lib/utils/test-utils');
+const {
+  mockCharacter,
+  registerAndLogin,
+  mockCharacterUpdate,
+} = require('../lib/utils/test-utils');
 
 describe('character routes', () => {
   beforeEach(() => {
@@ -12,6 +16,7 @@ describe('character routes', () => {
 
   it('POST / should create a new character', async () => {
     const { agent } = await registerAndLogin();
+
     const { body } = await agent.post('/api/v1/characters').send(mockCharacter);
 
     expect(body.charClass).toEqual('Wizard');
@@ -19,15 +24,11 @@ describe('character routes', () => {
 
   it('PATCH /update should update an existing character', async () => {
     //
-    const { agent, character } = await registerAndLogin();
-    const update = {
-      id: character.id,
-      charName: 'NewCharName',
-    };
+    const { agent } = await registerAndLogin();
 
     const { body } = await agent
       .patch('/api/v1/characters/update')
-      .send(update);
+      .send(mockCharacterUpdate);
 
     expect(body.charName).toEqual('NewCharName');
   });

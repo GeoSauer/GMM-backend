@@ -11,27 +11,6 @@ CREATE TABLE users (
         email TEXT,
     -- password_hash TEXT NOT NULL,
         password_hash TEXT
-        -- char_name TEXT,
-        -- char_class TEXT,
-        -- char_lvl INT,
-        -- char_mod INT,
-        -- caster_lvl INT,
-        -- prof_bonus INT,
-    -- //TODO figure out how to host avatars
-    -- avatar_url TEXT,
-        -- cantrips_available INT DEFAULT 0,
-        -- cantrips_known INT DEFAULT 0,
-        -- spells_available INT DEFAULT 0,
-        -- spells_known INT DEFAULT 0,
-        -- level_1_spell_slots INT DEFAULT 0,
-        -- level_2_spell_slots INT DEFAULT 0,
-        -- level_3_spell_slots INT DEFAULT 0,
-        -- level_4_spell_slots INT DEFAULT 0,
-        -- level_5_spell_slots INT DEFAULT 0,
-        -- level_6_spell_slots INT DEFAULT 0,
-        -- level_7_spell_slots INT DEFAULT 0,
-        -- level_8_spell_slots INT DEFAULT 0,
-        -- level_9_spell_slots INT DEFAULT 0
 );
 
 CREATE TABLE characters (
@@ -59,6 +38,8 @@ CREATE TABLE characters (
         level_9_spell_slots INT DEFAULT 0,
         save_dc INT DEFAULT 0,
         attack_bonus INT DEFAULT 0
+        -- //TODO figure out how to host avatars
+        -- avatar_url TEXT,
 );
 
 CREATE TABLE spells (

@@ -56,7 +56,9 @@ CREATE TABLE characters (
         level_6_spell_slots INT DEFAULT 0,
         level_7_spell_slots INT DEFAULT 0,
         level_8_spell_slots INT DEFAULT 0,
-        level_9_spell_slots INT DEFAULT 0
+        level_9_spell_slots INT DEFAULT 0,
+        save_dc INT DEFAULT 0,
+        attack_bonus INT DEFAULT 0
 );
 
 CREATE TABLE spells (

@@ -39,6 +39,7 @@ describe('character routes', () => {
 
     expect(body).toMatchInlineSnapshot(`
       Object {
+        "attackBonus": 6,
         "cantripsAvailable": 4,
         "cantripsKnown": 0,
         "casterLvl": 4,
@@ -57,6 +58,7 @@ describe('character routes', () => {
         "level8SpellSlots": 0,
         "level9SpellSlots": 0,
         "profBonus": 3,
+        "saveDC": 14,
         "spellsAvailable": 16,
         "spellsKnown": 0,
         "userId": "1",
@@ -72,6 +74,7 @@ describe('character routes', () => {
     expect(body).toMatchInlineSnapshot(`
       Array [
         Object {
+          "attackBonus": 6,
           "cantripsAvailable": 4,
           "cantripsKnown": 0,
           "casterLvl": 4,
@@ -90,6 +93,7 @@ describe('character routes', () => {
           "level8SpellSlots": 0,
           "level9SpellSlots": 0,
           "profBonus": 3,
+          "saveDC": 14,
           "spellsAvailable": 16,
           "spellsKnown": 0,
           "userId": "1",

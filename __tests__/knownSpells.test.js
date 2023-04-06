@@ -3,7 +3,7 @@ const setup = require('../data/setup');
 const { registerAndLogin } = require('../lib/utils/test-utils');
 const KnownSpell = require('../lib/models/KnownSpell');
 
-describe.skip('knownSpells routes', () => {
+describe('knownSpells routes', () => {
   beforeEach(() => {
     return setup(pool);
   });

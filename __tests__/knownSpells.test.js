@@ -36,7 +36,7 @@ describe('knownSpells routes', () => {
   });
 
   it('PATCH /:charId/prepare should let characters prepare a known spell', async () => {
-    const { agent, user } = await registerAndLogin();
+    const { agent } = await registerAndLogin();
 
     await KnownSpell.insertKnownSpell(mockKnownSpell);
 

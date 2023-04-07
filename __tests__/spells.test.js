@@ -15,13 +15,13 @@ describe('spell routes', () => {
 
     const { body } = await agent.get('/api/v1/spells/1');
 
-    expect(body.length).toEqual(3);
+    expect(body.length).toEqual(4);
   });
 
-  it('POST /:charId/learn should let characters insert/learn an available spell', async () => {
+  it('POST /learn should let characters insert/learn an available spell', async () => {
     const { agent } = await registerAndLogin();
 
-    const { body } = await agent.post('/api/v1/spells/1/learn').send(mockSpell);
+    const { body } = await agent.post('/api/v1/spells/learn').send(mockSpell);
 
     expect(body).toMatchInlineSnapshot(`
       Object {

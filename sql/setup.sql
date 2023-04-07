@@ -23,6 +23,8 @@ CREATE TABLE characters (
         char_mod INT,
         caster_lvl INT,
         prof_bonus INT,
+        save_dc INT DEFAULT 0,
+        attack_bonus INT DEFAULT 0,
         cantrips_available INT DEFAULT 0,
         cantrips_known INT DEFAULT 0,
         spells_available INT DEFAULT 0,
@@ -35,9 +37,7 @@ CREATE TABLE characters (
         level_6_spell_slots INT DEFAULT 0,
         level_7_spell_slots INT DEFAULT 0,
         level_8_spell_slots INT DEFAULT 0,
-        level_9_spell_slots INT DEFAULT 0,
-        save_dc INT DEFAULT 0,
-        attack_bonus INT DEFAULT 0
+        level_9_spell_slots INT DEFAULT 0
         -- //TODO figure out how to host avatars
         -- avatar_url TEXT,
 );
@@ -78,7 +78,8 @@ VALUES
 ('animal-shapes', 'Animal Shapes', 8, 'Transmutation', '{"Druid"}'),
 ('alarm', 'Alarm', 1, 'Abjuration', '{"Ranger", "Wizard"}'),
 ('arcane-eye', 'Arcane Eye', 4, 'Divination', '{"Cleric", "Wizard"}'),
-('arcane-sword', 'Arcane Sword', 7, 'Evocation', '{"Bard","Wizard"}');
+('arcane-sword', 'Arcane Sword', 7, 'Evocation', '{"Bard","Wizard"}'),
+('acid-arrow', 'Acid Arrow', 2, 'Evocation', '{"Wizard"}');
 
 
 -- INSERT INTO known_spells (user_id, spell_id, prepared)

@@ -4,6 +4,7 @@ const {
   mockCharacter,
   registerAndLogin,
   mockCharacterUpdate,
+  mockCastSpell,
 } = require('../lib/utils/test-utils');
 
 describe('character routes', () => {
@@ -23,7 +24,6 @@ describe('character routes', () => {
   });
 
   it('PATCH /update should update an existing character', async () => {
-    //
     const { agent } = await registerAndLogin();
 
     const { body } = await agent
@@ -67,10 +67,10 @@ describe('character routes', () => {
     `);
   });
 
-  it('GET / should return all characters for a user', async () => {
+  it('GET /all should return all characters for a user', async () => {
     const { agent } = await registerAndLogin();
 
-    const { body } = await agent.get('/api/v1/characters');
+    const { body } = await agent.get('/api/v1/characters/all');
 
     expect(body).toMatchInlineSnapshot(`
       Array [
@@ -109,5 +109,15 @@ describe('character routes', () => {
     await agent.delete('/api/v1/characters/1').expect(200);
 
     await agent.get('/api/v1/characters/1').expect(404);
+  });
+
+  it('PATCH /cast should allow a character to cast a spell', async () => {
+    const { agent } = await registerAndLogin();
+
+    const { body } = await agent
+      .patch('/api/v1/characters/cast')
+      .send(mockCastSpell);
+
+    expect(body.level2SpellSlots).toEqual(2);
   });
 });

@@ -35,13 +35,13 @@ describe('knownSpells routes', () => {
     await agent.get('/api/v1/known-spells/1/4').expect(404);
   });
 
-  it('PATCH /:charId/prepare should let characters prepare a known spell', async () => {
+  it('PATCH /prepare should let characters prepare a known spell', async () => {
     const { agent } = await registerAndLogin();
 
     await KnownSpell.insertKnownSpell(mockKnownSpell);
 
     const { body } = await agent
-      .patch('/api/v1/known-spells/1/prepare')
+      .patch('/api/v1/known-spells/prepare')
       .send(mockKnownSpellUpdate);
 
     expect(body.prepared).toEqual(true);

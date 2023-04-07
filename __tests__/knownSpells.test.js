@@ -18,7 +18,9 @@ describe('knownSpells routes', () => {
   it('GET /:charId should return all known spells for a character', async () => {
     const { agent } = await registerAndLogin();
 
-    await KnownSpell.insertKnownSpell(mockKnownSpell);
+    const { userId, charId, spellId } = mockKnownSpell;
+
+    await KnownSpell.insertKnownSpell(userId, charId, spellId);
 
     const { body } = await agent.get('/api/v1/known-spells/1');
 
@@ -28,7 +30,9 @@ describe('knownSpells routes', () => {
   it('DELETE /:charId/:spellId should let character delete a known spell', async () => {
     const { agent } = await registerAndLogin();
 
-    await KnownSpell.insertKnownSpell(mockKnownSpell);
+    const { userId, charId, spellId } = mockKnownSpell;
+
+    await KnownSpell.insertKnownSpell(userId, charId, spellId);
 
     await agent.delete('/api/v1/known-spells/1/4').expect(200);
 
@@ -38,7 +42,9 @@ describe('knownSpells routes', () => {
   it('PATCH /prepare should let characters prepare a known spell', async () => {
     const { agent } = await registerAndLogin();
 
-    await KnownSpell.insertKnownSpell(mockKnownSpell);
+    const { userId, charId, spellId } = mockKnownSpell;
+
+    await KnownSpell.insertKnownSpell(userId, charId, spellId);
 
     const { body } = await agent
       .patch('/api/v1/known-spells/prepare')
@@ -50,7 +56,9 @@ describe('knownSpells routes', () => {
   it('GET /:charId/prepared should return all prepared spells for a character', async () => {
     const { agent, user } = await registerAndLogin();
 
-    await KnownSpell.insertKnownSpell(mockKnownSpell);
+    const { userId, charId, spellId } = mockKnownSpell;
+
+    await KnownSpell.insertKnownSpell(userId, charId, spellId);
 
     await KnownSpell.updateSpellPreparation(user.id, mockKnownSpellUpdate);
 

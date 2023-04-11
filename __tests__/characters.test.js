@@ -5,7 +5,10 @@ const {
   registerAndLogin,
   mockCharacterUpdate,
   mockCastSpell,
+  mockKnownSpell,
+  mockKnownSpellUpdate,
 } = require('../lib/utils/test-utils');
+const KnownSpell = require('../lib/models/KnownSpell');
 
 describe('character routes', () => {
   beforeEach(() => {
@@ -119,5 +122,32 @@ describe('character routes', () => {
       .send(mockCastSpell);
 
     expect(body.level2SpellSlots).toEqual(2);
+  });
+
+  it('PATCH /prepare should let characters prepare a known spell', async () => {
+    const { agent } = await registerAndLogin();
+
+    const { userId, charId, spellId } = mockKnownSpell;
+    await KnownSpell.insertKnownSpell(userId, charId, spellId);
+    // await KnownSpell.insertKnownSpell(mockKnownSpell);
+
+    const { body } = await agent
+      .patch('/api/v1/characters/prepare')
+      .send(mockKnownSpellUpdate);
+
+    expect(body.prepared).toEqual(true);
+  });
+
+  it('DELETE /:charId/:spellId should let character delete a known spell', async () => {
+    const { agent } = await registerAndLogin();
+
+    const { userId, charId, spellId } = mockKnownSpell;
+    await KnownSpell.insertKnownSpell(userId, charId, spellId);
+
+    // await KnownSpell.insertKnownSpell(mockKnownSpell);
+
+    await agent.delete('/api/v1/characters/1/4').expect(200);
+
+    await agent.get('/api/v1/characters/1/4').expect(404);
   });
 });

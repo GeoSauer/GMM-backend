@@ -1,6 +1,12 @@
 const pool = require('../lib/utils/pool');
 const setup = require('../data/setup');
-const { registerAndLogin, mockSpell } = require('../lib/utils/test-utils');
+const {
+  registerAndLogin,
+  mockSpell,
+  mockKnownSpell,
+  mockKnownSpellUpdate,
+} = require('../lib/utils/test-utils');
+const KnownSpell = require('../lib/models/KnownSpell');
 
 describe('spell routes', () => {
   beforeEach(() => {
@@ -10,12 +16,40 @@ describe('spell routes', () => {
     pool.end();
   });
 
-  it('GET /:charId should return all available spells for a character', async () => {
+  it('GET /:charId/available should return all available spells for a character', async () => {
     const { agent } = await registerAndLogin();
 
-    const { body } = await agent.get('/api/v1/spells/1');
+    const { body } = await agent.get('/api/v1/spells/1/available');
 
     expect(body.length).toEqual(4);
+  });
+
+  it('GET /:charId/known should return all known spells for a character', async () => {
+    const { agent } = await registerAndLogin();
+
+    const { userId, charId, spellId } = mockKnownSpell;
+    await KnownSpell.insertKnownSpell(userId, charId, spellId);
+
+    // await KnownSpell.insertKnownSpell(mockKnownSpell);
+
+    const { body } = await agent.get('/api/v1/spells/1/known');
+
+    expect(body.length).toEqual(1);
+  });
+
+  it('GET /:charId/prepared should return all prepared spells for a character', async () => {
+    const { agent, user } = await registerAndLogin();
+
+    const { userId, charId, spellId } = mockKnownSpell;
+    await KnownSpell.insertKnownSpell(userId, charId, spellId);
+
+    // await KnownSpell.insertKnownSpell(mockKnownSpell);
+
+    await KnownSpell.updateSpellPreparation(user.id, mockKnownSpellUpdate);
+
+    const { body } = await agent.get('/api/v1/spells/1/prepared');
+
+    expect(body.length).toEqual(1);
   });
 
   it('POST /learn should let characters insert/learn an available spell', async () => {

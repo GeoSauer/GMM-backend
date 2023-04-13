@@ -127,9 +127,7 @@ describe('character routes', () => {
   it('PATCH /prepare should let characters prepare a known spell', async () => {
     const { agent } = await registerAndLogin();
 
-    const { userId, charId, spellId } = mockKnownSpell;
-    await KnownSpell.insertKnownSpell(userId, charId, spellId);
-    // await KnownSpell.insertKnownSpell(mockKnownSpell);
+    await KnownSpell.insertKnownSpell(mockKnownSpell);
 
     const { body } = await agent
       .patch('/api/v1/characters/prepare')
@@ -141,10 +139,7 @@ describe('character routes', () => {
   it('DELETE /:charId/:spellId should let character delete a known spell', async () => {
     const { agent } = await registerAndLogin();
 
-    const { userId, charId, spellId } = mockKnownSpell;
-    await KnownSpell.insertKnownSpell(userId, charId, spellId);
-
-    // await KnownSpell.insertKnownSpell(mockKnownSpell);
+    await KnownSpell.insertKnownSpell(mockKnownSpell);
 
     await agent.delete('/api/v1/characters/1/4').expect(200);
 

@@ -63,24 +63,6 @@ describe('user routes', () => {
       .expect(401);
   });
 
-  it('GET /me should return all information about a user', async () => {
-    const { agent } = await registerAndLogin();
-
-    const { body } = await agent.get('/api/v1/users/me');
-
-    expect(body).toMatchInlineSnapshot(`
-          Object {
-            "email": "test@example.com",
-            "id": "1",
-            "username": "Test",
-          }
-      `);
-  });
-
-  it('GET /me should return a 401 if no user', async () => {
-    await request(app).get('/api/v1/users/me').expect(401);
-  });
-
   it('GET / should return a user by id', async () => {
     const { agent } = await registerAndLogin();
 

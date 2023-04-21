@@ -55,11 +55,14 @@ describe('spell routes', () => {
       Object {
         "charId": "1",
         "id": "1",
+        "known": true,
         "prepared": false,
         "spellId": "4",
         "userId": "1",
       }
     `);
+
+    await agent.post('/api/v1/spells/learn').send(mockSpell).expect(500);
   });
 
   it('GET /:spellId/details should return details on a single available spell', async () => {

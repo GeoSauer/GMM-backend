@@ -61,6 +61,7 @@ CREATE TABLE known_spells (
         FOREIGN KEY (spell_id) REFERENCES spells(id),
         prepared BOOLEAN DEFAULT false,
         known BOOLEAN DEFAULT true
+        
 );
 
 -- ! DUMMY DATA FOR TESTING --

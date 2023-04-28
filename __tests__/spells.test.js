@@ -2,10 +2,8 @@ const pool = require('../lib/utils/pool');
 const setup = require('../data/setup');
 const {
   registerAndLogin,
-  mockSpell,
   mockKnownSpell,
   mockKnownSpellUpdate,
-  mockCantrip,
 } = require('../lib/utils/test-utils');
 const KnownSpell = require('../lib/models/KnownSpell');
 
@@ -45,44 +43,6 @@ describe('spell routes', () => {
     const { body } = await agent.get('/api/v1/spells/1/prepared');
 
     expect(body.length).toEqual(1);
-  });
-
-  it('POST /learn should let characters insert/learn an available spell', async () => {
-    const { agent } = await registerAndLogin();
-
-    const { body } = await agent.post('/api/v1/spells/learn').send(mockSpell);
-
-    expect(body).toMatchInlineSnapshot(`
-      Object {
-        "charId": "1",
-        "id": "1",
-        "known": true,
-        "prepared": false,
-        "spellId": "4",
-        "userId": "1",
-      }
-    `);
-
-    await agent.post('/api/v1/spells/learn').send(mockSpell).expect(500);
-  });
-
-  it('POST /learn should let characters insert/learn and automatically prepare an available cantrip', async () => {
-    const { agent } = await registerAndLogin();
-
-    const { body } = await agent.post('/api/v1/spells/learn').send(mockCantrip);
-
-    expect(body).toMatchInlineSnapshot(`
-      Object {
-        "charId": "1",
-        "id": "1",
-        "known": true,
-        "prepared": true,
-        "spellId": "7",
-        "userId": "1",
-      }
-    `);
-
-    await agent.post('/api/v1/spells/learn').send(mockCantrip).expect(500);
   });
 
   it('GET /:spellId/details should return details on a single available spell', async () => {

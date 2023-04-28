@@ -4,6 +4,8 @@ const {
   mockCharacter,
   registerAndLogin,
   mockCharacterUpdate,
+  mockSpell,
+  mockCantrip,
   mockCastSpell,
   mockKnownSpell,
   mockKnownSpellUpdate,
@@ -112,6 +114,48 @@ describe('character routes', () => {
     await agent.delete('/api/v1/characters/1').expect(200);
 
     await agent.get('/api/v1/characters/1').expect(404);
+  });
+
+  it('POST /learn should let characters insert/learn an available spell', async () => {
+    const { agent } = await registerAndLogin();
+
+    const { body } = await agent
+      .post('/api/v1/characters/learn')
+      .send(mockSpell);
+
+    expect(body).toMatchInlineSnapshot(`
+      Object {
+        "charId": "1",
+        "id": "1",
+        "known": true,
+        "prepared": false,
+        "spellId": "4",
+        "userId": "1",
+      }
+    `);
+
+    await agent.post('/api/v1/characters/learn').send(mockSpell).expect(500);
+  });
+
+  it('POST /learn should let characters insert/learn and automatically prepare an available cantrip', async () => {
+    const { agent } = await registerAndLogin();
+
+    const { body } = await agent
+      .post('/api/v1/characters/learn')
+      .send(mockCantrip);
+
+    expect(body).toMatchInlineSnapshot(`
+      Object {
+        "charId": "1",
+        "id": "1",
+        "known": true,
+        "prepared": true,
+        "spellId": "7",
+        "userId": "1",
+      }
+    `);
+
+    await agent.post('/api/v1/characters/learn').send(mockCantrip).expect(500);
   });
 
   it('PATCH /cast should allow a character to cast a spell', async () => {

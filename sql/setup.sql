@@ -61,6 +61,7 @@ CREATE TABLE known_spells (
         FOREIGN KEY (spell_id) REFERENCES spells(id),
         prepared BOOLEAN DEFAULT false,
         known BOOLEAN DEFAULT true
+        
 );
 
 -- ! DUMMY DATA FOR TESTING --
@@ -80,7 +81,8 @@ VALUES
 ('alarm', 'Alarm', 1, 'Abjuration', '{"Ranger", "Wizard"}'),
 ('arcane-eye', 'Arcane Eye', 4, 'Divination', '{"Cleric", "Wizard"}'),
 ('arcane-sword', 'Arcane Sword', 7, 'Evocation', '{"Bard","Wizard"}'),
-('acid-arrow', 'Acid Arrow', 2, 'Evocation', '{"Wizard"}');
+('acid-arrow', 'Acid Arrow', 2, 'Evocation', '{"Wizard"}'),
+('color-spray', 'Color Spray', 0, 'Illusion', '{"Sorcerer", "Wizard"}');
 
 
 -- INSERT INTO known_spells (user_id, spell_id, prepared)

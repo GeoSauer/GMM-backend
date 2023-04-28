@@ -20,7 +20,7 @@ describe('user routes', () => {
   it('POST / should create a new user', async () => {
     const { body } = await request(app).post('/api/v1/users').send(mockUser);
 
-    expect(body.email).toEqual('test@example.com');
+    expect(body.message).toEqual('Signed up successfully!');
   });
 
   it('POST /sessions should sign in an existing user with an email', async () => {

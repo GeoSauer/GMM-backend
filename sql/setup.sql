@@ -82,7 +82,7 @@ VALUES
 ('arcane-eye', 'Arcane Eye', 4, 'Divination', '{"Cleric", "Wizard"}'),
 ('arcane-sword', 'Arcane Sword', 7, 'Evocation', '{"Bard","Wizard"}'),
 ('acid-arrow', 'Acid Arrow', 2, 'Evocation', '{"Wizard"}'),
-('color-spray', 'Color Spray', 0, 'Illusion', '{"Sorcerer", "Wizard"}');
+('acid-splash', 'Acid Splash', 0, 'Conjuration', '{"Sorcerer", "Wizard"}');
 
 
 -- INSERT INTO known_spells (user_id, spell_id, prepared)

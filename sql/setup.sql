@@ -37,9 +37,9 @@ CREATE TABLE characters (
         level_6_spell_slots INT DEFAULT 0,
         level_7_spell_slots INT DEFAULT 0,
         level_8_spell_slots INT DEFAULT 0,
-        level_9_spell_slots INT DEFAULT 0
+        level_9_spell_slots INT DEFAULT 0,
         -- //TODO figure out how to host avatars
-        -- avatar_url TEXT,
+        avatar TEXT
 );
 
 CREATE TABLE spells (

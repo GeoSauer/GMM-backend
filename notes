@@ -11,54 +11,43 @@
 //   return params;
 // };
 
-//? handy dandy function for the later times
-// const convertIndexToName = (index) => {
-//   const firstLetters = /\b(\w)/g;
-//   const name = index.replace('-', ' ').replace(firstLetters, (x) => x.toUpperCase());
-//   return name;
-// };
+//! CLASS SPECIFIC FEATURES
+//* Bard
+// Magical Secrets - at 10th, 14th, and 18th level learn 2 spells from any class
+//Colleges?  Lore allows an extra magical secrets, this could be handled with the 'bonus_spells' column
 
-//? SPELL LEVEL CAP 9
-// Bard:
-// spell save DC: 8+prof+Cha
-// spell atk mod: prof+Cha
+//*Cleric
+//Fucking domains, holy shit
 
-// Cleric:
-// spell save DC: 8+prof+Wis
-// spell atk mod: prof+Wis
+//*Druid
+//Circle - get spells that behave like cantrips
+//Need a short rest button for them with a modal that manually gives spellslots back
+//Maybe add some conditional modals to update character form
 
-// Druid:
-// spell save DC: 8+prof+Wis
-// spell atk mod: prof+Wis
+//*Fighter (Eldritch Knight)
+//Just all of it
 
-// Sorcerer:
-// spell save DC: 8+prof+Cha
-// spell atk mod: prof+Cha
+//*Monk(Way of the Four Elements)
+//needs a lot of extra stuff, gotta track ki points.  Definitely not for v1
 
-// Wizard:
-// spells known: Int+lvl
-// spell save DC: 8+prof+Int
-// spell atk mod: prof+Int
+//*Paladin
+//Divine Smite - spend a spell slot to deal radiant damage (scales)
+//Sacred Oath - get spells that behave like cantrips
 
-//? SPELL LEVEL CAP 5
-// Paladin:
-// spells known: Cha+(lvl/2 rounded down)
-// charMod + Math.floor(charLvl / 2)
-// spell save DC: 8+prof+Cha
-// spell atk mod: prof+Cha
+//*Ranger
+//on level change can choose any one spell to forget and learn a new one instead
+//primeval awareness - spend a spell slot to sense critters
 
-// Ranger:
-// spells known: 1(0), 2(2), 3-4(3), 5-6(4), 7-8(5), 9-10(6), 11-12(7), 13-14(8), 15-16(9), 17-18(10), 19-20(11)
-// spell save DC: 8+prof+Wis
-// spell atk mod: prof+Wis
+//*Rogue(Arcane Trickster)
+//Just all of it
 
-// Warlock:
-// spells known:
-// cantrips known:
+//*Sorcerer
+//Sorcerer points are a whole ass thing
+//Also Wild Magic Surge, omg
 
-// Level/Prof Bonus
-// 1-4 +2
-// 5-8 +3
-// 9-12 +4
-// 13-16 +5
-// 17-20 +6
+//*Warlock
+//Eldritch Invocations, a lotta work
+
+//*Wizard
+//Arcane Recovery - short rest spell recovery
+//Arcane Traditions - because why not pile more on?

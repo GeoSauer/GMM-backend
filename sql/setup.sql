@@ -25,10 +25,13 @@ CREATE TABLE characters (
         prof_bonus INT,
         save_dc INT DEFAULT 0,
         attack_bonus INT DEFAULT 0,
-        cantrips_available INT DEFAULT 0,
-        cantrips_known INT DEFAULT 0,
-        spells_available INT DEFAULT 0,
-        spells_known INT DEFAULT 0,
+        -- //TODO 
+        -- !removing spell amount tracking for v1
+        -- cantrips_available INT DEFAULT 0,
+        -- cantrips_known INT DEFAULT 0,
+        -- spells_available INT DEFAULT 0,
+        -- spells_known INT DEFAULT 0,
+        -- !--------------------------------------
         level_1_spell_slots INT DEFAULT 0,
         level_2_spell_slots INT DEFAULT 0,
         level_3_spell_slots INT DEFAULT 0,

@@ -80,7 +80,7 @@ CREATE TABLE known_spells (
 INSERT INTO spells (index, name, level, school, classes)
 VALUES 
 ('alter-self', 'Alter Self', 2, 'Transmutation', '{"Sorcerer", "Wizard"}'),
-('animal-shapes', 'Animal Shapes', 8, 'Transmutation', '{"Druid"}'),
+('guidance', 'Guidance', 2, 'Divination', '{"Cleric, Druid"}'),
 ('alarm', 'Alarm', 1, 'Abjuration', '{"Ranger", "Wizard"}'),
 ('arcane-eye', 'Arcane Eye', 4, 'Divination', '{"Cleric", "Wizard"}'),
 ('arcane-sword', 'Arcane Sword', 7, 'Evocation', '{"Bard","Wizard"}'),

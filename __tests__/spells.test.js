@@ -15,6 +15,14 @@ describe('spell routes', () => {
     pool.end();
   });
 
+  it("GET /:charId/all should return all spells at or below a character's caster level regardless of class", async () => {
+    const { agent } = await registerAndLogin();
+
+    const { body } = await agent.get('/api/v1/spells/1/all');
+
+    expect(body.length).toEqual(6);
+  });
+
   it('GET /:charId/available should return all available spells for a character', async () => {
     const { agent } = await registerAndLogin();
 

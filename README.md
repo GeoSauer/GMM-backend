@@ -1,4 +1,15 @@
-# GMM Backend
+# Grimoire for the Modern Mage - Backend
+
+GMM is a spellcasting companion app for virtual or in-person Dnd 5e sessions. It allows users to easily create a profile with as many characters as they want, and effortlessly learn, forget, prepare, and un-prepare spells with those characters. Spell slots are tracked, and slot level, ritual, and concentration spell casting is all handled on a spell by spell basis.
+
+## Table of contents
+
+- [Scripts](#scripts)
+- [User Routes](#user-routes)
+- [Character Routes](#character-routes)
+- [Spell Routes](#spell-routes)
+- [Technologies](#technologies)
+- [Sources](#sources)
 
 ## Scripts
 
@@ -44,3 +55,12 @@
 | `/api/v1/spells/:charId/available/` | `GET`       | None      | Returns all available spells for a character |
 | `/api/v1/spells/:charId/known/`     | `GET`       | None      | Returns all known spells for a character     |
 | `/api/v1/spells/:charId/prepared/`  | `GET`       | None      | Returns all prepared spells for a character  |
+
+## Technologies
+
+- Node.js v19.7.0
+- Express.js v4.18.1
+
+## Sources
+
+- All spell data is returned from the incredible [dnd5eapi.co](https://www.dnd5eapi.co/)

@@ -69,14 +69,6 @@ CREATE TABLE known_spells (
 
 -- ! DUMMY DATA FOR TESTING --
 
--- INSERT INTO users (char_class, caster_lvl)
--- VALUES 
--- ('Wizard', 5),
--- ('Bard', 8),
--- ('Druid', 2),
--- ('Cleric', 5),
--- ('Paladin', 3);
-
 INSERT INTO spells (index, name, level, school, classes)
 VALUES 
 ('alter-self', 'Alter Self', 2, 'Transmutation', '{"Sorcerer", "Wizard"}'),
@@ -86,14 +78,3 @@ VALUES
 ('arcane-sword', 'Arcane Sword', 7, 'Evocation', '{"Bard","Wizard"}'),
 ('acid-arrow', 'Acid Arrow', 2, 'Evocation', '{"Wizard"}'),
 ('acid-splash', 'Acid Splash', 0, 'Conjuration', '{"Sorcerer", "Wizard"}');
-
-
--- INSERT INTO known_spells (user_id, spell_id, prepared)
--- VALUES 
--- (1, 1, true),
--- (1, 3, false),
--- (1, 4, true),
--- (1, 5, false),
--- (2, 5, false),
--- (3, 2, true),
--- (4, 4, true);

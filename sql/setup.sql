@@ -59,7 +59,7 @@ CREATE TABLE known_spells (
         user_id BIGINT,
         FOREIGN KEY (user_id) REFERENCES users(id),
         char_id BIGINT,
-        FOREIGN KEY (char_id) REFERENCES characters(id),
+        FOREIGN KEY (char_id) REFERENCES characters(id) ON DELETE CASCADE,
         spell_id BIGINT,
         FOREIGN KEY (spell_id) REFERENCES spells(id),
         prepared BOOLEAN DEFAULT false,

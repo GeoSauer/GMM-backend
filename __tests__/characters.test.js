@@ -9,6 +9,9 @@ const {
   mockCastSpell,
   mockKnownSpell,
   mockKnownSpellUpdate,
+  mockCleric,
+  mockDruid,
+  mockPaladin,
 } = require('../lib/utils/test-utils');
 const KnownSpell = require('../lib/models/KnownSpell');
 
@@ -26,6 +29,22 @@ describe('character routes', () => {
     const { body } = await agent.post('/api/v1/characters').send(mockCharacter);
 
     expect(body.charClass).toEqual('Wizard');
+  });
+
+  it('POST / creating a Cleric, Druid, or Paladin should make all available spells known by default', async () => {
+    const { agent } = await registerAndLogin();
+
+    await agent.post('/api/v1/characters').send(mockCleric);
+    await agent.post('/api/v1/characters').send(mockDruid);
+    await agent.post('/api/v1/characters').send(mockPaladin);
+
+    const clericRes = await agent.get('/api/v1/spells/2/known');
+    const druidRes = await agent.get('/api/v1/spells/3/known');
+    const paladinRes = await agent.get('/api/v1/spells/4/known');
+
+    expect(clericRes.body.length).toEqual(2);
+    expect(druidRes.body.length).toEqual(1);
+    expect(paladinRes.body.length).toEqual(0);
   });
 
   it('PATCH /update should update an existing character', async () => {

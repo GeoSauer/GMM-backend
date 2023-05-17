@@ -51,7 +51,8 @@ CREATE TABLE spells (
         name TEXT,
         level INT,
         school TEXT,
-        classes TEXT[] DEFAULT ARRAY[]::TEXT[]
+        classes TEXT[] DEFAULT ARRAY[]::TEXT[],
+				known BOOLEAN DEFAULT false
 );
 
 CREATE TABLE known_spells (
@@ -62,8 +63,8 @@ CREATE TABLE known_spells (
         FOREIGN KEY (char_id) REFERENCES characters(id) ON DELETE CASCADE,
         spell_id BIGINT,
         FOREIGN KEY (spell_id) REFERENCES spells(id),
-        prepared BOOLEAN DEFAULT false,
-        known BOOLEAN DEFAULT true
+        known BOOLEAN DEFAULT true,
+        prepared BOOLEAN DEFAULT false
         
 );
 

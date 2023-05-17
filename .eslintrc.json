@@ -13,13 +13,14 @@
   "extends": ["eslint:recommended"],
   "rules": {
     "no-console": ["warn", { "allow": ["info", "error"] }],
-    "indent": [
-      "error",
-      2,
-      {
-        "SwitchCase": 1
-      }
-    ],
+    // "indent": [
+    //   "error",
+    //   2,
+    //   {
+    //     "SwitchCase": 1
+    //   }
+    // ],
+    "indent": "off",
     "quotes": ["error", "single"],
     "semi": ["error", "always"],
     "space-in-parens": ["error"],

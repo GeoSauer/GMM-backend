@@ -25,10 +25,13 @@ CREATE TABLE characters (
         prof_bonus INT,
         save_dc INT DEFAULT 0,
         attack_bonus INT DEFAULT 0,
-        cantrips_available INT DEFAULT 0,
-        cantrips_known INT DEFAULT 0,
-        spells_available INT DEFAULT 0,
-        spells_known INT DEFAULT 0,
+        -- //TODO 
+        -- !removing spell amount tracking for v1
+        -- cantrips_available INT DEFAULT 0,
+        -- cantrips_known INT DEFAULT 0,
+        -- spells_available INT DEFAULT 0,
+        -- spells_known INT DEFAULT 0,
+        -- !--------------------------------------
         level_1_spell_slots INT DEFAULT 0,
         level_2_spell_slots INT DEFAULT 0,
         level_3_spell_slots INT DEFAULT 0,
@@ -37,9 +40,9 @@ CREATE TABLE characters (
         level_6_spell_slots INT DEFAULT 0,
         level_7_spell_slots INT DEFAULT 0,
         level_8_spell_slots INT DEFAULT 0,
-        level_9_spell_slots INT DEFAULT 0
+        level_9_spell_slots INT DEFAULT 0,
         -- //TODO figure out how to host avatars
-        -- avatar_url TEXT,
+        avatar TEXT
 );
 
 CREATE TABLE spells (
@@ -56,7 +59,7 @@ CREATE TABLE known_spells (
         user_id BIGINT,
         FOREIGN KEY (user_id) REFERENCES users(id),
         char_id BIGINT,
-        FOREIGN KEY (char_id) REFERENCES characters(id),
+        FOREIGN KEY (char_id) REFERENCES characters(id) ON DELETE CASCADE,
         spell_id BIGINT,
         FOREIGN KEY (spell_id) REFERENCES spells(id),
         prepared BOOLEAN DEFAULT false,
@@ -66,31 +69,12 @@ CREATE TABLE known_spells (
 
 -- ! DUMMY DATA FOR TESTING --
 
--- INSERT INTO users (char_class, caster_lvl)
--- VALUES 
--- ('Wizard', 5),
--- ('Bard', 8),
--- ('Druid', 2),
--- ('Cleric', 5),
--- ('Paladin', 3);
-
 INSERT INTO spells (index, name, level, school, classes)
 VALUES 
 ('alter-self', 'Alter Self', 2, 'Transmutation', '{"Sorcerer", "Wizard"}'),
-('animal-shapes', 'Animal Shapes', 8, 'Transmutation', '{"Druid"}'),
+('guidance', 'Guidance', 0, 'Divination', '{"Cleric", "Druid"}'),
 ('alarm', 'Alarm', 1, 'Abjuration', '{"Ranger", "Wizard"}'),
 ('arcane-eye', 'Arcane Eye', 4, 'Divination', '{"Cleric", "Wizard"}'),
 ('arcane-sword', 'Arcane Sword', 7, 'Evocation', '{"Bard","Wizard"}'),
 ('acid-arrow', 'Acid Arrow', 2, 'Evocation', '{"Wizard"}'),
-('color-spray', 'Color Spray', 0, 'Illusion', '{"Sorcerer", "Wizard"}');
-
-
--- INSERT INTO known_spells (user_id, spell_id, prepared)
--- VALUES 
--- (1, 1, true),
--- (1, 3, false),
--- (1, 4, true),
--- (1, 5, false),
--- (2, 5, false),
--- (3, 2, true),
--- (4, 4, true);
+('acid-splash', 'Acid Splash', 0, 'Conjuration', '{"Sorcerer", "Wizard"}');

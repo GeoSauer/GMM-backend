@@ -4,9 +4,14 @@ const {
   mockCharacter,
   registerAndLogin,
   mockCharacterUpdate,
+  mockSpell,
+  mockCantrip,
   mockCastSpell,
   mockKnownSpell,
   mockKnownSpellUpdate,
+  mockCleric,
+  mockDruid,
+  mockPaladin,
 } = require('../lib/utils/test-utils');
 const KnownSpell = require('../lib/models/KnownSpell');
 
@@ -24,6 +29,22 @@ describe('character routes', () => {
     const { body } = await agent.post('/api/v1/characters').send(mockCharacter);
 
     expect(body.charClass).toEqual('Wizard');
+  });
+
+  it('POST / creating a Cleric, Druid, or Paladin should make all available spells known by default', async () => {
+    const { agent } = await registerAndLogin();
+
+    await agent.post('/api/v1/characters').send(mockCleric);
+    await agent.post('/api/v1/characters').send(mockDruid);
+    await agent.post('/api/v1/characters').send(mockPaladin);
+
+    const clericRes = await agent.get('/api/v1/spells/2/known');
+    const druidRes = await agent.get('/api/v1/spells/3/known');
+    const paladinRes = await agent.get('/api/v1/spells/4/known');
+
+    expect(clericRes.body.length).toEqual(2);
+    expect(druidRes.body.length).toEqual(1);
+    expect(paladinRes.body.length).toEqual(0);
   });
 
   it('PATCH /update should update an existing character', async () => {
@@ -44,8 +65,6 @@ describe('character routes', () => {
     expect(body).toMatchInlineSnapshot(`
       Object {
         "attackBonus": 6,
-        "cantripsAvailable": 4,
-        "cantripsKnown": 0,
         "casterLvl": 4,
         "charClass": "Wizard",
         "charLvl": 8,
@@ -63,8 +82,6 @@ describe('character routes', () => {
         "level9SpellSlots": 0,
         "profBonus": 3,
         "saveDC": 14,
-        "spellsAvailable": 16,
-        "spellsKnown": 0,
         "userId": "1",
       }
     `);
@@ -79,8 +96,6 @@ describe('character routes', () => {
       Array [
         Object {
           "attackBonus": 6,
-          "cantripsAvailable": 4,
-          "cantripsKnown": 0,
           "casterLvl": 4,
           "charClass": "Wizard",
           "charLvl": 8,
@@ -98,8 +113,6 @@ describe('character routes', () => {
           "level9SpellSlots": 0,
           "profBonus": 3,
           "saveDC": 14,
-          "spellsAvailable": 16,
-          "spellsKnown": 0,
           "userId": "1",
         },
       ]
@@ -112,6 +125,48 @@ describe('character routes', () => {
     await agent.delete('/api/v1/characters/1').expect(200);
 
     await agent.get('/api/v1/characters/1').expect(404);
+  });
+
+  it('POST /learn should let characters insert/learn an available spell', async () => {
+    const { agent } = await registerAndLogin();
+
+    const { body } = await agent
+      .post('/api/v1/characters/learn')
+      .send(mockSpell);
+
+    expect(body).toMatchInlineSnapshot(`
+      Object {
+        "charId": "1",
+        "id": "1",
+        "known": true,
+        "prepared": false,
+        "spellId": "4",
+        "userId": "1",
+      }
+    `);
+
+    await agent.post('/api/v1/characters/learn').send(mockSpell).expect(500);
+  });
+
+  it('POST /learn should let characters insert/learn and automatically prepare an available cantrip', async () => {
+    const { agent } = await registerAndLogin();
+
+    const { body } = await agent
+      .post('/api/v1/characters/learn')
+      .send(mockCantrip);
+
+    expect(body).toMatchInlineSnapshot(`
+      Object {
+        "charId": "1",
+        "id": "1",
+        "known": true,
+        "prepared": true,
+        "spellId": "7",
+        "userId": "1",
+      }
+    `);
+
+    await agent.post('/api/v1/characters/learn').send(mockCantrip).expect(500);
   });
 
   it('PATCH /cast should allow a character to cast a spell', async () => {

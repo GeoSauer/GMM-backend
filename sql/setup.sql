@@ -70,12 +70,12 @@ CREATE TABLE known_spells (
 
 -- ! DUMMY DATA FOR TESTING --
 
-INSERT INTO spells (index, name, level, school, classes)
-VALUES 
-('alter-self', 'Alter Self', 2, 'Transmutation', '{"Sorcerer", "Wizard"}'),
-('guidance', 'Guidance', 0, 'Divination', '{"Cleric", "Druid"}'),
-('alarm', 'Alarm', 1, 'Abjuration', '{"Ranger", "Wizard"}'),
-('arcane-eye', 'Arcane Eye', 4, 'Divination', '{"Cleric", "Wizard"}'),
-('arcane-sword', 'Arcane Sword', 7, 'Evocation', '{"Bard","Wizard"}'),
-('acid-arrow', 'Acid Arrow', 2, 'Evocation', '{"Wizard"}'),
-('acid-splash', 'Acid Splash', 0, 'Conjuration', '{"Sorcerer", "Wizard"}');
+-- INSERT INTO spells (index, name, level, school, classes)
+-- VALUES 
+-- ('alter-self', 'Alter Self', 2, 'Transmutation', '{"Sorcerer", "Wizard"}'),
+-- ('guidance', 'Guidance', 0, 'Divination', '{"Cleric", "Druid"}'),
+-- ('alarm', 'Alarm', 1, 'Abjuration', '{"Ranger", "Wizard"}'),
+-- ('arcane-eye', 'Arcane Eye', 4, 'Divination', '{"Cleric", "Wizard"}'),
+-- ('arcane-sword', 'Arcane Sword', 7, 'Evocation', '{"Bard","Wizard"}'),
+-- ('acid-arrow', 'Acid Arrow', 2, 'Evocation', '{"Wizard"}'),
+-- ('acid-splash', 'Acid Splash', 0, 'Conjuration', '{"Sorcerer", "Wizard"}');

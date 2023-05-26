@@ -64,7 +64,8 @@ CREATE TABLE known_spells (
         spell_id BIGINT,
         FOREIGN KEY (spell_id) REFERENCES spells(id),
         known BOOLEAN DEFAULT true,
-        prepared BOOLEAN DEFAULT false
+        prepared BOOLEAN DEFAULT false,
+				from_all BOOLEAN DEFAULT false
         
 );
 

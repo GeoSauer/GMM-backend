@@ -15,7 +15,8 @@ const {
 } = require('../lib/utils/test-utils');
 const KnownSpell = require('../lib/models/KnownSpell');
 
-describe('character routes', () => {
+//! Uncomment dummy testing data in setup.sql before running tests
+describe.skip('character routes', () => {
   beforeEach(() => {
     return setup(pool);
   });

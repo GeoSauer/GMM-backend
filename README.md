@@ -52,6 +52,7 @@ GMM is a spellcasting companion app for virtual or in-person Dnd 5e sessions. It
 | Route                               | HTTP Method | HTTP Body | Description                                  |
 | ----------------------------------- | ----------- | --------- | -------------------------------------------- |
 | `/api/v1/spells/:spellId/details/`  | `GET`       | None      | Returns details on a single spell            |
+| `/api/v1/spells/all/`               | `GET`       | None      | Returns all spells                           |
 | `/api/v1/spells/:charId/available/` | `GET`       | None      | Returns all available spells for a character |
 | `/api/v1/spells/:charId/known/`     | `GET`       | None      | Returns all known spells for a character     |
 | `/api/v1/spells/:charId/prepared/`  | `GET`       | None      | Returns all prepared spells for a character  |

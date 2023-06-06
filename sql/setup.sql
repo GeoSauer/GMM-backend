@@ -4,10 +4,10 @@ CREATE TABLE users (
         id BIGINT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
     -- //TODO change these back to unique for rls
     username TEXT UNIQUE,
-        -- username TEXT,
     email TEXT UNIQUE,
-        -- email TEXT,
     password_hash TEXT NOT NULL
+        -- username TEXT,
+        -- email TEXT,
         -- password_hash TEXT
 );
 

@@ -14,7 +14,7 @@ CREATE TABLE users (
 CREATE TABLE characters (
         id BIGINT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
         user_id BIGINT,
-        FOREIGN KEY (user_id) REFERENCES users(id),
+        FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE,
         char_name TEXT,
         char_class TEXT,
         char_lvl INT,

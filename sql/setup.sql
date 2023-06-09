@@ -4,7 +4,8 @@ CREATE TABLE users (
         id BIGINT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
     		username TEXT UNIQUE,
     		email TEXT UNIQUE,
-    		password_hash TEXT NOT NULL
+    		password_hash TEXT NOT NULL,
+				demo BOOLEAN DEFAULT false
         -- username TEXT,
         -- email TEXT,
         -- password_hash TEXT

@@ -56,7 +56,7 @@ CREATE TABLE spells (
 CREATE TABLE known_spells (
         id BIGINT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
         user_id BIGINT,
-        FOREIGN KEY (user_id) REFERENCES users(id),
+        FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE,
         char_id BIGINT,
         FOREIGN KEY (char_id) REFERENCES characters(id) ON DELETE CASCADE,
         spell_id BIGINT,

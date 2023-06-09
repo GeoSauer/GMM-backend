@@ -2,10 +2,9 @@ DROP TABLE IF EXISTS users, characters, spells, known_spells CASCADE;
 
 CREATE TABLE users (
         id BIGINT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
-    -- //TODO change these back to unique for rls
-    username TEXT UNIQUE,
-    email TEXT UNIQUE,
-    password_hash TEXT NOT NULL
+    		username TEXT UNIQUE,
+    		email TEXT UNIQUE,
+    		password_hash TEXT NOT NULL
         -- username TEXT,
         -- email TEXT,
         -- password_hash TEXT

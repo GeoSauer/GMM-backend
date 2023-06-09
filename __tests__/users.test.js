@@ -87,4 +87,12 @@ describe.skip('user routes', () => {
 
     await agent.delete('/api/v1/users/sessions').expect(204);
   });
+
+  it('DELETE / should delete a user', async () => {
+    const { agent } = await registerAndLogin();
+
+    await agent.delete('/api/v1/users/1').expect(200);
+
+    await agent.get('/api/v1/users/1').expect(404);
+  });
 });

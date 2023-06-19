@@ -5,7 +5,8 @@ CREATE TABLE users (
     		username TEXT UNIQUE,
     		email TEXT UNIQUE,
     		password_hash TEXT NOT NULL,
-				demo BOOLEAN DEFAULT false
+				demo BOOLEAN DEFAULT false,
+				expiration_date TIMESTAMP
         -- username TEXT,
         -- email TEXT,
         -- password_hash TEXT

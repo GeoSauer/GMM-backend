@@ -2,7 +2,7 @@
 
 # Grimoire for the Modern Mage - Back-end
 
-## [Live Demo](https://grimoire-for-the-modern-mage.netlify.app/welcome)
+## [Deployed App With Demo](https://grimoire-for-the-modern-mage.netlify.app/welcome)
 
 Full-stack spellcasting companion app for virtual or in-person Dungeons & Dragons 5e sessions that’s as fun to use as it is to look at. Allows users to easily create a profile with as many characters as they need, and effortlessly handle all spell related game mechanics in a fun, interactive, and intuitive way.
 

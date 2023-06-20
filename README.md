@@ -1,6 +1,10 @@
-# Grimoire for the Modern Mage - Backend
+<image src='./lib/images/GMM-rectangle-logo.png'>
 
-GMM is a spellcasting companion app for virtual or in-person Dnd 5e sessions. It allows users to easily create a profile with as many characters as they want, and effortlessly learn, forget, prepare, and un-prepare spells with those characters. Spell slots are tracked, and slot level, ritual, and concentration spell casting is all handled on a spell by spell basis.
+# Grimoire for the Modern Mage - Back-end
+
+## [Live Demo](https://grimoire-for-the-modern-mage.netlify.app/welcome)
+
+Full-stack spellcasting companion app for virtual or in-person Dungeons & Dragons 5e sessions that’s as fun to use as it is to look at. Allows users to easily create a profile with as many characters as they need, and effortlessly handle all spell related game mechanics in a fun, interactive, and intuitive way.
 
 ## Table of contents
 

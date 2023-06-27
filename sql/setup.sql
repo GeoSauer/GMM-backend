@@ -7,9 +7,6 @@ CREATE TABLE users (
     		password_hash TEXT NOT NULL,
 				demo BOOLEAN DEFAULT false,
 				expiration_date TIMESTAMP
-        -- username TEXT,
-        -- email TEXT,
-        -- password_hash TEXT
 );
 
 CREATE TABLE characters (
@@ -70,12 +67,10 @@ CREATE TABLE known_spells (
 
 -- ! DUMMY DATA FOR TESTING --
 
--- INSERT INTO spells (index, name, level, school, classes)
--- VALUES 
--- ('alter-self', 'Alter Self', 2, 'Transmutation', '{"Sorcerer", "Wizard"}'),
--- ('guidance', 'Guidance', 0, 'Divination', '{"Cleric", "Druid"}'),
--- ('alarm', 'Alarm', 1, 'Abjuration', '{"Ranger", "Wizard"}'),
--- ('arcane-eye', 'Arcane Eye', 4, 'Divination', '{"Cleric", "Wizard"}'),
--- ('arcane-sword', 'Arcane Sword', 7, 'Evocation', '{"Bard","Wizard"}'),
--- ('acid-arrow', 'Acid Arrow', 2, 'Evocation', '{"Wizard"}'),
--- ('acid-splash', 'Acid Splash', 0, 'Conjuration', '{"Sorcerer", "Wizard"}');
+INSERT INTO spells (index, name, level, school, classes)
+VALUES 
+('spell-one', 'Spell One', 0, 'Transmutation', '{"Sorcerer", "Wizard"}'),
+('spell-two', 'Spell Two', 1, 'Divination', '{"Cleric", "Druid", "Wizard"}'),
+('spell-three', 'Spell Three', 2, 'Abjuration', '{"Ranger", "Wizard"}'),
+('spell-four', 'Spell Four', 3, 'Conjuration', '{"Cleric", "Wizard"}'),
+('alter-self', 'Spell Five', 7, 'Evocation', '{"Bard","Wizard", "Paladin"}');

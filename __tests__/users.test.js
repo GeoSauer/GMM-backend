@@ -8,13 +8,16 @@ const {
   mockUserUpdate,
 } = require('../lib/utils/test-utils');
 const UserService = require('../lib/services/UserService');
+const demoCleanup = require('../lib/tasks/demoUserCleanup');
+const dbCleanup = require('../lib/tasks/dbCleanup');
 
-//! Uncomment dummy testing data in setup.sql before running tests
-describe.skip('user routes', () => {
+describe('user routes', () => {
   beforeEach(() => {
     return setup(pool);
   });
-  afterAll(() => {
+  afterAll(async () => {
+    await dbCleanup();
+    demoCleanup.stop();
     pool.end();
   });
 
@@ -50,7 +53,9 @@ describe.skip('user routes', () => {
 
     expect(body).toMatchInlineSnapshot(`
       Object {
+        "demo": null,
         "email": "test@example.com",
+        "expirationDate": null,
         "id": "1",
         "username": "TestUpdate",
       }
@@ -71,7 +76,9 @@ describe.skip('user routes', () => {
 
     expect(body).toMatchInlineSnapshot(`
       Object {
+        "demo": null,
         "email": "test@example.com",
+        "expirationDate": null,
         "id": "1",
         "username": "Test",
       }
@@ -91,8 +98,8 @@ describe.skip('user routes', () => {
   it('DELETE / should delete a user', async () => {
     const { agent } = await registerAndLogin();
 
-    await agent.delete('/api/v1/users/1').expect(200);
+    await agent.delete('/api/v1/users/').expect(200);
 
-    await agent.get('/api/v1/users/1').expect(404);
+    await agent.get('/api/v1/users/').expect(404);
   });
 });

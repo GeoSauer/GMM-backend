@@ -14,13 +14,16 @@ const {
   mockPaladin,
 } = require('../lib/utils/test-utils');
 const KnownSpell = require('../lib/models/KnownSpell');
+const demoCleanup = require('../lib/tasks/demoUserCleanup');
+const dbCleanup = require('../lib/tasks/dbCleanup');
 
-//! Uncomment dummy testing data in setup.sql before running tests
-describe.skip('character routes', () => {
+describe('character routes', () => {
   beforeEach(() => {
     return setup(pool);
   });
-  afterAll(() => {
+  afterAll(async () => {
+    await dbCleanup();
+    demoCleanup.stop();
     pool.end();
   });
 
@@ -138,6 +141,7 @@ describe.skip('character routes', () => {
     expect(body).toMatchInlineSnapshot(`
       Object {
         "charId": "1",
+        "fromAll": null,
         "id": "1",
         "known": true,
         "prepared": false,
@@ -159,10 +163,11 @@ describe.skip('character routes', () => {
     expect(body).toMatchInlineSnapshot(`
       Object {
         "charId": "1",
+        "fromAll": null,
         "id": "1",
         "known": true,
         "prepared": true,
-        "spellId": "7",
+        "spellId": "1",
         "userId": "1",
       }
     `);
@@ -181,9 +186,9 @@ describe.skip('character routes', () => {
   });
 
   it('PATCH /prepare should let characters prepare a known spell', async () => {
-    const { agent } = await registerAndLogin();
+    const { agent, user } = await registerAndLogin();
 
-    await KnownSpell.insertSpell(mockKnownSpell);
+    await KnownSpell.insertSpell(user.id, mockKnownSpell);
 
     const { body } = await agent
       .patch('/api/v1/characters/prepare')
@@ -193,9 +198,9 @@ describe.skip('character routes', () => {
   });
 
   it('DELETE /:charId/:spellId should let character delete a known spell', async () => {
-    const { agent } = await registerAndLogin();
+    const { agent, user } = await registerAndLogin();
 
-    await KnownSpell.insertSpell(mockKnownSpell);
+    await KnownSpell.insertSpell(user.id, mockKnownSpell);
 
     await agent.delete('/api/v1/characters/1/4').expect(200);
 

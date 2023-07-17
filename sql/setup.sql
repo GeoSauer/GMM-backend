@@ -43,8 +43,8 @@ CREATE TABLE characters (
 
 CREATE TABLE spells (
         id BIGINT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
-        index TEXT,
-        name TEXT,
+        index TEXT UNIQUE,
+        name TEXT UNIQUE,
         level INT,
         school TEXT,
         classes TEXT[] DEFAULT ARRAY[]::TEXT[],
